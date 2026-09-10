@@ -1,0 +1,46 @@
+import { Route, Routes } from 'react-router-dom'
+import Navbar from './components/Navbar.jsx'
+import Footer from './components/Footer.jsx'
+import Home from './pages/Home.jsx'
+import About from './pages/About.jsx'
+import WhatWeDo from './pages/WhatWeDo.jsx'
+import Events from './pages/Events.jsx'
+import Team from './pages/Team.jsx'
+import MemberProfile from './pages/MemberProfile.jsx'
+import Achievements from './pages/Achievements.jsx'
+import Gallery from './pages/Gallery.jsx'
+import Contact from './pages/Contact.jsx'
+import AdminLogin from './admin/AdminLogin.jsx'
+import AdminDashboard from './admin/AdminDashboard.jsx'
+
+function PublicLayout({ children }) {
+  return (
+    <>
+      <Navbar />
+      {children}
+      <Footer />
+    </>
+  )
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
+      <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
+      <Route path="/what-we-do" element={<PublicLayout><WhatWeDo /></PublicLayout>} />
+      <Route path="/events" element={<PublicLayout><Events /></PublicLayout>} />
+      <Route path="/team" element={<PublicLayout><Team /></PublicLayout>} />
+      <Route path="/team/:memberId" element={<PublicLayout><MemberProfile /></PublicLayout>} />
+      <Route path="/achievements" element={<PublicLayout><Achievements /></PublicLayout>} />
+      <Route path="/gallery" element={<PublicLayout><Gallery /></PublicLayout>} />
+      <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
+
+      {/* Admin route group — gated behind auth in a later phase */}
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin" element={<AdminDashboard />} />
+    </Routes>
+  )
+}
+
+export default App
