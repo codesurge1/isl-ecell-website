@@ -17,7 +17,8 @@
 - [x] Events & timeline — category filter chips synced to a ?category= URL
       param, Upcoming/Past split, expand-in-place or external-link cards
 - [x] Achievements — simple reverse-chronological card grid, no filters
-- [ ] Gallery
+- [x] Gallery — CSS-columns masonry with stylized placeholders, lightbox
+      with focus trap/return, no filters
 - [ ] Contact
 - [ ] Admin panel — login, manage members/events/achievements/gallery
 - [ ] Real data population (members, events, achievements, gallery)
