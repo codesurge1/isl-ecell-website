@@ -44,9 +44,8 @@ function RocketIcon(props) {
 }
 
 // Category labels match the events.category enum exactly (see
-// .claude/rules/data-layer.md) — these link to /events, which doesn't
-// support a category filter yet. Once it does (e.g. /events?category=X),
-// wire these through instead of linking plain (tracked in PLAN.md).
+// .claude/rules/data-layer.md) — each links to /events?category=<value>,
+// which pre-selects the matching filter chip there.
 const CATEGORIES = [
   {
     category: 'Workshops',
@@ -86,7 +85,7 @@ function CategoryCard({ category, description, Icon }) {
       className="h-full"
     >
       <Link
-        to="/events"
+        to={`/events?category=${encodeURIComponent(category)}`}
         className="relative flex h-full min-h-56 flex-col justify-between overflow-hidden rounded-2xl border border-[color:var(--color-glow-accent)]/20 bg-gradient-to-br from-[color:var(--color-bg-mid)] to-[color:var(--color-bg-base)] p-6 shadow-[0_0_30px_-10px_rgba(143,217,255,0.25)]"
       >
         <div
