@@ -16,8 +16,9 @@
       About
 - [x] Events & timeline — category filter chips synced to a ?category= URL
       param, Upcoming/Past split, expand-in-place or external-link cards
-- [ ] Achievements
-- [ ] Gallery
+- [x] Achievements — simple reverse-chronological card grid, no filters
+- [x] Gallery — CSS-columns masonry with stylized placeholders, lightbox
+      with focus trap/return, no filters
 - [ ] Contact
 - [ ] Admin panel — login, manage members/events/achievements/gallery
 - [ ] Real data population (members, events, achievements, gallery)
@@ -27,10 +28,5 @@
 
 - Home page stats section uses placeholder numbers, must be replaced with
   real figures before launch.
-- /events now supports ?category=<value> filtering, but About page's
-  "What We Do" category cards still link to /events plain — this task's
-  instructions explicitly excluded touching About.jsx, so update those
-  4 links (Workshops/Guest talks/Competitions/Flagship events) to
-  /events?category=<value> as a small follow-up.
 - About page's "Our Story" section is placeholder copy; real copy to be
   supplied by the user before launch.
