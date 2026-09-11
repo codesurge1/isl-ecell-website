@@ -3,6 +3,7 @@ import { getMembers } from '../lib/queries.js'
 import { buildMemberTree } from '../lib/buildMemberTree.js'
 import Starfield from '../components/Starfield.jsx'
 import ConstellationNode from '../components/ConstellationNode.jsx'
+import MobileTeamAccordion from '../components/MobileTeamAccordion.jsx'
 import PageTransition from '../components/PageTransition.jsx'
 
 function Team() {
@@ -48,11 +49,19 @@ function Team() {
         )}
 
         {!loading && !error && (
-          <div className="flex flex-wrap justify-center gap-16">
-            {roots.map((root) => (
-              <ConstellationNode key={root.id} member={root} tier={0} />
-            ))}
-          </div>
+          <>
+            {/* Desktop constellation — hidden below Tailwind's md breakpoint */}
+            <div className="hidden md:flex md:flex-wrap md:justify-center md:gap-16">
+              {roots.map((root) => (
+                <ConstellationNode key={root.id} member={root} tier={0} />
+              ))}
+            </div>
+
+            {/* Mobile fallback — vertical accordion below md */}
+            <div className="md:hidden">
+              <MobileTeamAccordion roots={roots} />
+            </div>
+          </>
         )}
       </div>
     </PageTransition>
