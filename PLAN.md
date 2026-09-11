@@ -10,7 +10,7 @@
 - [x] Header/Footer — real Navbar (active-route indicator, sticky/scroll
       background treatment, mobile hamburger menu) and Footer (socials,
       tagline, copyright), replacing the Phase 0 placeholders
-- [ ] Home
+- [x] Home — hero, stats, bento-grid teaser (Events/Team/Achievements), closing CTA
 - [ ] About
 - [ ] What we do
 - [ ] Events & timeline
@@ -20,3 +20,8 @@
 - [ ] Admin panel — login, manage members/events/achievements/gallery
 - [ ] Real data population (members, events, achievements, gallery)
 - [ ] QA pass
+
+## Known follow-ups
+
+- Home page stats section uses placeholder numbers, must be replaced with
+  real figures before launch.
