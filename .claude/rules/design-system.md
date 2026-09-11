@@ -15,7 +15,7 @@ alwaysApply: false
 | Primary text | #FFFFFF |
 | Secondary text | #C6D0E0 |
 | Brand accent (CTAs, active states) | #B31E2D |
-| Glow accent (constellation only) | #8FD9FF |
+| Glow accent (constellation only) | #9D7FE8 |
 
 Do not introduce new colors outside this palette without updating this file
 first.

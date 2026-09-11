@@ -22,7 +22,7 @@ backed by Supabase for data and storage.
 | Primary text | #FFFFFF |
 | Secondary text | #C6D0E0 |
 | Brand accent (CTAs, active states) | #B31E2D |
-| Glow accent (constellation only) | #8FD9FF |
+| Glow accent (constellation only) | #9D7FE8 |
 
 ## Typography
 
