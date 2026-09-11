@@ -7,7 +7,7 @@ import { supabase } from './supabaseClient.js'
 // panel in a later phase.
 
 export async function getMembers() {
-  return supabase.from('members').select('*')
+  return supabase.from('members').select('*').order('created_at', { ascending: true })
 }
 
 export async function getEvents() {
