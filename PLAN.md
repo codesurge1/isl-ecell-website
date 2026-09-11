@@ -14,7 +14,8 @@
 - [x] About — Our Story + What We Do (four category cards); "What We Do"
       is no longer a standalone page/nav item, its content merged into
       About
-- [ ] Events & timeline
+- [x] Events & timeline — category filter chips synced to a ?category= URL
+      param, Upcoming/Past split, expand-in-place or external-link cards
 - [ ] Achievements
 - [ ] Gallery
 - [ ] Contact
@@ -26,8 +27,10 @@
 
 - Home page stats section uses placeholder numbers, must be replaced with
   real figures before launch.
-- About page's "What We Do" category cards link to /events plain — once
-  the Events page supports a category filter via URL query param (e.g.
-  /events?category=Workshops), wire these links to pre-filter instead.
+- /events now supports ?category=<value> filtering, but About page's
+  "What We Do" category cards still link to /events plain — this task's
+  instructions explicitly excluded touching About.jsx, so update those
+  4 links (Workshops/Guest talks/Competitions/Flagship events) to
+  /events?category=<value> as a small follow-up.
 - About page's "Our Story" section is placeholder copy; real copy to be
   supplied by the user before launch.
