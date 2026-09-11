@@ -3,6 +3,16 @@ import MemberOrb from './MemberOrb.jsx'
 
 const MAX_VISIBLE_CHILDREN = 4
 
+// A faint glowing connector segment — same light source as the orbs, not a
+// plain diagram line.
+function ConnectorLine({ className = '' }) {
+  return (
+    <div
+      className={`w-px bg-[color:var(--color-glow-accent)]/45 shadow-[0_0_6px_1px_rgba(143,217,255,0.4),0_0_14px_3px_rgba(143,217,255,0.18)] ${className}`}
+    />
+  )
+}
+
 function CollapsedClusterNode({ count, onExpand }) {
   return (
     <button type="button" onClick={onExpand} className="flex flex-col items-center gap-2 bg-transparent">
@@ -25,15 +35,17 @@ function ConstellationNode({ member, tier }) {
 
       {children.length > 0 && (
         <>
-          <div className="h-6 w-px bg-[color:var(--color-glow-accent)]/40" />
-          <div className="relative flex justify-center gap-10 before:absolute before:left-[8%] before:right-[8%] before:top-0 before:border-t before:border-[color:var(--color-glow-accent)]/30">
+          <ConnectorLine className="h-6" />
+          <div className="relative flex justify-center gap-10 before:absolute before:left-[8%] before:right-[8%] before:top-0 before:border-t before:border-[color:var(--color-glow-accent)]/40 before:shadow-[0_0_6px_1px_rgba(143,217,255,0.35)]">
             {isCollapsed ? (
-              <div className="pt-6">
+              <div className="flex flex-col items-center">
+                <ConnectorLine className="h-6" />
                 <CollapsedClusterNode count={children.length} onExpand={() => setExpanded(true)} />
               </div>
             ) : (
               children.map((child) => (
-                <div key={child.id} className="flex flex-col items-center pt-6">
+                <div key={child.id} className="flex flex-col items-center">
+                  <ConnectorLine className="h-6" />
                   <ConstellationNode member={child} tier={tier + 1} />
                 </div>
               ))
