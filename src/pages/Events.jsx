@@ -119,7 +119,7 @@ function EventCard({ event }) {
     >
       <Shell
         {...shellProps}
-        className="relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-[color:var(--color-glow-accent)]/20 bg-gradient-to-br from-[color:var(--color-bg-mid)] to-[color:var(--color-bg-base)] p-6 text-left shadow-[0_0_30px_-10px_rgba(143,217,255,0.25)]"
+        className="relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-[color:var(--color-glow-accent)]/20 bg-gradient-to-br from-[color:var(--color-bg-mid)] to-[color:var(--color-bg-base)] p-6 text-left shadow-[0_0_30px_-10px_rgba(var(--color-glow-accent-rgb),0.25)]"
       >
         <div
           className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[color:var(--color-glow-accent)]/10 blur-3xl"

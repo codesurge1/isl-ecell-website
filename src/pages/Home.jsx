@@ -90,7 +90,7 @@ function HeroCta({ prefersReducedMotion }) {
               : { scale: 1.05, filter: 'brightness(1.3)' }
           }
           transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
-          className="inline-block rounded-full border border-[color:var(--color-glow-accent)]/80 bg-[color:var(--color-bg-mid)]/60 px-8 py-3 font-heading text-[color:var(--color-text-primary)] shadow-[0_0_14px_2px_rgba(143,217,255,0.6),0_0_34px_8px_rgba(143,217,255,0.35),0_0_64px_16px_rgba(143,217,255,0.15)]"
+          className="inline-block rounded-full border border-[color:var(--color-glow-accent)]/80 bg-[color:var(--color-bg-mid)]/60 px-8 py-3 font-heading text-[color:var(--color-text-primary)] shadow-[0_0_14px_2px_rgba(var(--color-glow-accent-rgb),0.6),0_0_34px_8px_rgba(var(--color-glow-accent-rgb),0.35),0_0_64px_16px_rgba(var(--color-glow-accent-rgb),0.15)]"
         >
           Meet the team
         </motion.span>
@@ -204,7 +204,7 @@ function BentoCard({ to, title, blurb, Icon }) {
     >
       <Link
         to={to}
-        className="relative flex h-full min-h-56 flex-col justify-between overflow-hidden rounded-2xl border border-[color:var(--color-glow-accent)]/20 bg-gradient-to-br from-[color:var(--color-bg-mid)] to-[color:var(--color-bg-base)] p-6 shadow-[0_0_30px_-10px_rgba(143,217,255,0.25)]"
+        className="relative flex h-full min-h-56 flex-col justify-between overflow-hidden rounded-2xl border border-[color:var(--color-glow-accent)]/20 bg-gradient-to-br from-[color:var(--color-bg-mid)] to-[color:var(--color-bg-base)] p-6 shadow-[0_0_30px_-10px_rgba(var(--color-glow-accent-rgb),0.25)]"
       >
         <div
           className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[color:var(--color-glow-accent)]/10 blur-3xl"
