@@ -16,7 +16,7 @@
       About
 - [x] Events & timeline — category filter chips synced to a ?category= URL
       param, Upcoming/Past split, expand-in-place or external-link cards
-- [ ] Achievements
+- [x] Achievements — simple reverse-chronological card grid, no filters
 - [ ] Gallery
 - [ ] Contact
 - [ ] Admin panel — login, manage members/events/achievements/gallery
