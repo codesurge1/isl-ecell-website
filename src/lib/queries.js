@@ -7,7 +7,15 @@ import { supabase } from './supabaseClient.js'
 // panel in a later phase.
 
 export async function getMembers() {
-  return supabase.from('members').select('*')
+  return supabase.from('members').select('*').order('created_at', { ascending: true })
+}
+
+// maybeSingle() resolves with { data: null, error: null } when no row
+// matches, instead of single()'s "no rows" error — lets the caller render
+// a plain "not found" state rather than treating a missing member as a
+// fetch failure.
+export async function getMemberById(id) {
+  return supabase.from('members').select('*').eq('id', id).maybeSingle()
 }
 
 export async function getEvents() {

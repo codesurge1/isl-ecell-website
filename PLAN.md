@@ -5,6 +5,9 @@
       Note: Schema is defined in /supabase/migrations/0001_init.sql — must be
       run manually in the Supabase SQL Editor before Phase 1 can fetch real data.
 - [ ] Phase 1 — Team constellation visual draft (dummy data)
+      Note: Navbar/header is currently unstyled Phase 0 placeholder — needs
+      a real design pass (typography, spacing, hover states) alongside the
+      Home page hero build, since they'll share the same layout decisions.
 - [ ] Phase 2 — Member profile page + click-through transition
 - [ ] Phase 3 — Mobile fallback for constellation
 - [ ] Phase 4 — Real data population (members, events, achievements, gallery)
