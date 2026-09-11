@@ -19,7 +19,8 @@
 - [x] Achievements — simple reverse-chronological card grid, no filters
 - [x] Gallery — CSS-columns masonry with stylized placeholders, lightbox
       with focus trap/return, no filters
-- [ ] Contact
+- [x] Contact — static page (no Supabase calls): mailto link, location,
+      social links; no contact form, no join/recruitment mention
 - [ ] Admin panel — login, manage members/events/achievements/gallery
 - [ ] Real data population (members, events, achievements, gallery)
 - [ ] QA pass
@@ -30,3 +31,7 @@
   real figures before launch.
 - About page's "Our Story" section is placeholder copy; real copy to be
   supplied by the user before launch.
+- Contact page uses placeholder social URLs (Instagram/LinkedIn both
+  "#"), a placeholder email (ecell@islengineering.edu.in), and
+  placeholder location text ("ISL Engineering College, [Building/Room
+  TBD]") — all three need real values before launch.
