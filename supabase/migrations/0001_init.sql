@@ -113,8 +113,6 @@ values
   ('gallery-photos', 'gallery-photos', true)
 on conflict (id) do nothing;
 
-alter table storage.objects enable row level security;
-
 create policy "Public read access" on storage.objects
   for select to anon, authenticated
   using (bucket_id in ('member-photos', 'event-thumbnails', 'achievement-images', 'gallery-photos'));
