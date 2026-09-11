@@ -3,13 +3,20 @@
 - [x] Phase 0 — Project skeleton, folder structure, stack installed, documentation files created
 - [x] Connect Supabase — tables, RLS policies, storage buckets, dummy seed data
       Note: Schema is defined in /supabase/migrations/0001_init.sql — must be
-      run manually in the Supabase SQL Editor before Phase 1 can fetch real data.
-- [ ] Phase 1 — Team constellation visual draft (dummy data)
-      Note: Navbar/header is currently unstyled Phase 0 placeholder — needs
-      a real design pass (typography, spacing, hover states) alongside the
-      Home page hero build, since they'll share the same layout decisions.
-- [ ] Phase 2 — Member profile page + click-through transition
-- [ ] Phase 3 — Mobile fallback for constellation
-- [ ] Phase 4 — Real data population (members, events, achievements, gallery)
-- [ ] Phase 5 — QA pass
+      run manually in the Supabase SQL Editor before real data can be fetched.
+- [x] Team constellation (Phases 1-3) — visual draft against real Supabase
+      data, member profile page + orb-to-profile click-through transition,
+      mobile accordion fallback below the md breakpoint
+- [x] Header/Footer — real Navbar (active-route indicator, sticky/scroll
+      background treatment, mobile hamburger menu) and Footer (socials,
+      tagline, copyright), replacing the Phase 0 placeholders
+- [ ] Home
+- [ ] About
+- [ ] What we do
+- [ ] Events & timeline
+- [ ] Achievements
+- [ ] Gallery
+- [ ] Contact
 - [ ] Admin panel — login, manage members/events/achievements/gallery
+- [ ] Real data population (members, events, achievements, gallery)
+- [ ] QA pass

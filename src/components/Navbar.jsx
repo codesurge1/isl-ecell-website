@@ -1,7 +1,11 @@
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Link, NavLink, useLocation } from 'react-router-dom'
+import { useScrolled } from '../lib/use-scrolled.js'
+import { usePrefersReducedMotion } from '../lib/use-prefers-reduced-motion.js'
 
-const links = [
-  { to: '/', label: 'Home' },
+const LINKS = [
+  { to: '/', label: 'Home', end: true },
   { to: '/about', label: 'About' },
   { to: '/what-we-do', label: 'What We Do' },
   { to: '/events', label: 'Events' },
@@ -11,15 +15,118 @@ const links = [
   { to: '/contact', label: 'Contact' },
 ]
 
-function Navbar() {
+function desktopLinkClass({ isActive }) {
+  return `border-b-2 pb-1 text-sm tracking-wide transition-colors ${
+    isActive
+      ? 'border-[color:var(--color-brand-accent)] text-[color:var(--color-brand-accent)]'
+      : 'border-transparent text-[color:var(--color-text-secondary)] hover:text-[color:var(--color-text-primary)]'
+  }`
+}
+
+function mobileLinkClass({ isActive }) {
+  return `rounded-md px-3 py-3 text-lg transition-colors ${
+    isActive
+      ? 'text-[color:var(--color-brand-accent)]'
+      : 'text-[color:var(--color-text-secondary)] hover:text-[color:var(--color-text-primary)]'
+  }`
+}
+
+function MenuIcon(props) {
   return (
-    <nav className="flex flex-wrap gap-4 bg-[color:var(--color-bg-base)] p-4 font-heading text-[color:var(--color-text-primary)]">
-      {links.map((link) => (
-        <Link key={link.to} to={link.to}>
-          {link.label}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" {...props}>
+      <line x1="4" y1="7" x2="20" y2="7" />
+      <line x1="4" y1="12" x2="20" y2="12" />
+      <line x1="4" y1="17" x2="20" y2="17" />
+    </svg>
+  )
+}
+
+function CloseIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" {...props}>
+      <line x1="5" y1="5" x2="19" y2="19" />
+      <line x1="19" y1="5" x2="5" y2="19" />
+    </svg>
+  )
+}
+
+function Navbar() {
+  const scrolled = useScrolled()
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const location = useLocation()
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [lastPathname, setLastPathname] = useState(location.pathname)
+
+  // Auto-close the mobile menu whenever the route changes. Navbar sits
+  // outside the keyed Routes swap (it doesn't remount on navigation), so
+  // this can't be reset by a key — adjusting state during render, rather
+  // than in an effect, avoids the extra post-navigation render pass.
+  if (location.pathname !== lastPathname) {
+    setLastPathname(location.pathname)
+    setMobileOpen(false)
+  }
+
+  // Lock background scroll while the full-screen mobile menu is open.
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [mobileOpen])
+
+  return (
+    <header
+      className={`sticky top-0 z-50 transition-colors duration-300 ${
+        scrolled
+          ? 'border-b border-white/5 bg-[color:var(--color-bg-base)]/85 shadow-lg shadow-black/20 backdrop-blur-md'
+          : 'border-b border-transparent bg-transparent'
+      }`}
+    >
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+        <Link
+          to="/"
+          className="font-heading text-lg text-[color:var(--color-text-primary)] transition-colors hover:text-[color:var(--color-glow-accent)]"
+        >
+          ISL E-cell
         </Link>
-      ))}
-    </nav>
+
+        <nav className="hidden items-center gap-6 md:flex">
+          {LINKS.map((link) => (
+            <NavLink key={link.to} to={link.to} end={link.end} className={desktopLinkClass}>
+              {link.label}
+            </NavLink>
+          ))}
+        </nav>
+
+        <button
+          type="button"
+          onClick={() => setMobileOpen((value) => !value)}
+          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={mobileOpen}
+          className="text-[color:var(--color-text-primary)] md:hidden"
+        >
+          {mobileOpen ? <CloseIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
+        </button>
+      </div>
+
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.nav
+            initial={prefersReducedMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
+            className="fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col items-center justify-center gap-2 bg-[color:var(--color-bg-base)]/98 backdrop-blur-md md:hidden"
+          >
+            {LINKS.map((link) => (
+              <NavLink key={link.to} to={link.to} end={link.end} className={mobileLinkClass}>
+                {link.label}
+              </NavLink>
+            ))}
+          </motion.nav>
+        )}
+      </AnimatePresence>
+    </header>
   )
 }
 
