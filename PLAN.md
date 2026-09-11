@@ -11,8 +11,9 @@
       background treatment, mobile hamburger menu) and Footer (socials,
       tagline, copyright), replacing the Phase 0 placeholders
 - [x] Home — hero, stats, bento-grid teaser (Events/Team/Achievements), closing CTA
-- [ ] About
-- [ ] What we do
+- [x] About — Our Story + What We Do (four category cards); "What We Do"
+      is no longer a standalone page/nav item, its content merged into
+      About
 - [ ] Events & timeline
 - [ ] Achievements
 - [ ] Gallery
@@ -25,3 +26,8 @@
 
 - Home page stats section uses placeholder numbers, must be replaced with
   real figures before launch.
+- About page's "What We Do" category cards link to /events plain — once
+  the Events page supports a category filter via URL query param (e.g.
+  /events?category=Workshops), wire these links to pre-filter instead.
+- About page's "Our Story" section is placeholder copy; real copy to be
+  supplied by the user before launch.

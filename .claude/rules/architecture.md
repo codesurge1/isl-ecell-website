@@ -4,7 +4,7 @@
 
 ```
 /src
-  /pages        one file per public page: Home, About, WhatWeDo, Events,
+  /pages        one file per public page: Home, About, Events,
                 Team, MemberProfile, Achievements, Gallery, Contact
   /components   shared UI (Button, Card, Navbar, Footer, etc.)
   /admin        admin panel pages, kept separate from /pages
@@ -26,9 +26,9 @@
 
 ## Routing
 
-- All public pages are top-level routes (`/`, `/about`, `/what-we-do`,
-  `/events`, `/team`, `/team/:memberId`, `/achievements`, `/gallery`,
-  `/contact`).
+- All public pages are top-level routes (`/`, `/about`, `/events`,
+  `/team`, `/team/:memberId`, `/achievements`, `/gallery`, `/contact`).
+  "What We Do" content lives as a section on `/about`, not its own route.
 - Everything under `/admin` is a separate route group (`/admin/login`,
   `/admin`, etc.). It will be gated behind auth in a later phase — for now
   it just needs to stay structurally separate from the public routes.

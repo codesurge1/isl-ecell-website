@@ -7,7 +7,6 @@ import { usePrefersReducedMotion } from '../lib/use-prefers-reduced-motion.js'
 const LINKS = [
   { to: '/', label: 'Home', end: true },
   { to: '/about', label: 'About' },
-  { to: '/what-we-do', label: 'What We Do' },
   { to: '/events', label: 'Events' },
   { to: '/team', label: 'Team' },
   { to: '/achievements', label: 'Achievements' },

@@ -4,7 +4,6 @@ import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
 import Home from './pages/Home.jsx'
 import About from './pages/About.jsx'
-import WhatWeDo from './pages/WhatWeDo.jsx'
 import Events from './pages/Events.jsx'
 import Team from './pages/Team.jsx'
 import MemberProfile from './pages/MemberProfile.jsx'
@@ -32,7 +31,6 @@ function App() {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
         <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
-        <Route path="/what-we-do" element={<PublicLayout><WhatWeDo /></PublicLayout>} />
         <Route path="/events" element={<PublicLayout><Events /></PublicLayout>} />
         <Route path="/team" element={<PublicLayout><Team /></PublicLayout>} />
         <Route path="/team/:memberId" element={<PublicLayout><MemberProfile /></PublicLayout>} />
