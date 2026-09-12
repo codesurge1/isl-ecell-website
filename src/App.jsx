@@ -13,13 +13,14 @@ import Contact from './pages/Contact.jsx'
 import AdminLogin from './admin/AdminLogin.jsx'
 import AdminDashboard from './admin/AdminDashboard.jsx'
 import AdminRoute from './admin/AdminRoute.jsx'
-import ComingSoonPage from './admin/ComingSoonPage.jsx'
 import MembersList from './admin/members/MembersList.jsx'
 import MemberForm from './admin/members/MemberForm.jsx'
 import EventsList from './admin/events/EventsList.jsx'
 import EventForm from './admin/events/EventForm.jsx'
 import AchievementsList from './admin/achievements/AchievementsList.jsx'
 import AchievementForm from './admin/achievements/AchievementForm.jsx'
+import GalleryList from './admin/gallery/GalleryList.jsx'
+import GalleryForm from './admin/gallery/GalleryForm.jsx'
 
 function PublicLayout({ children }) {
   return (
@@ -124,7 +125,15 @@ function App() {
           path="/admin/gallery"
           element={
             <AdminRoute>
-              <ComingSoonPage title="Manage Gallery" />
+              <GalleryList />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/gallery/new"
+          element={
+            <AdminRoute>
+              <GalleryForm />
             </AdminRoute>
           }
         />

@@ -21,7 +21,7 @@
       with focus trap/return, no filters
 - [x] Contact — static page (no Supabase calls): mailto link, location,
       social links; no contact form, no join/recruitment mention
-- [ ] Admin panel — login, manage members/events/achievements/gallery
+- [x] Admin panel — login, manage members/events/achievements/gallery
       - [x] Auth layer: Supabase email/password login (/admin/login),
             ProtectedRoute session gate on all other /admin/* routes,
             session persists across refresh, logout clears the session
@@ -39,7 +39,15 @@
             most-recent-first, add-only form (image upload to
             achievement-images, optional per schema), delete with
             confirmation + storage cleanup — no edit form, per scope
-      - [ ] Gallery CRUD
+      - [x] Gallery upload/delete (/admin/gallery): grid list sorted
+            most-recent-first with thumbnail previews, add-only form
+            (image upload to gallery-photos, required — validated before
+            any upload/insert is attempted, caption optional), single-file
+            upload enforced (no `multiple` attribute; Playwright confirms
+            a real multi-file selection is rejected), delete with
+            confirmation + storage cleanup (no "image present?" branch
+            needed since image is always present, only a defensive path
+            guard) — no edit form, no batch upload, per scope
 - [ ] Real data population (members, events, achievements, gallery)
 - [ ] QA pass
 
