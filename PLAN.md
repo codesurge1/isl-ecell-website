@@ -25,7 +25,11 @@
       - [x] Auth layer: Supabase email/password login (/admin/login),
             ProtectedRoute session gate on all other /admin/* routes,
             session persists across refresh, logout clears the session
-      - [ ] Members CRUD
+      - [x] Members CRUD (/admin/members): list with hierarchy indentation
+            and resolved "Reports to" names, add/edit form (photo upload to
+            member-photos with old-file cleanup, socials, cycle-safe
+            "Reports to" dropdown via getDescendantIds), delete blocked
+            while a member has direct reports
       - [ ] Events CRUD
       - [ ] Achievements CRUD
       - [ ] Gallery CRUD
