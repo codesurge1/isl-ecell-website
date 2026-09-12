@@ -16,6 +16,8 @@ import AdminRoute from './admin/AdminRoute.jsx'
 import ComingSoonPage from './admin/ComingSoonPage.jsx'
 import MembersList from './admin/members/MembersList.jsx'
 import MemberForm from './admin/members/MemberForm.jsx'
+import EventsList from './admin/events/EventsList.jsx'
+import EventForm from './admin/events/EventForm.jsx'
 
 function PublicLayout({ children }) {
   return (
@@ -80,7 +82,23 @@ function App() {
           path="/admin/events"
           element={
             <AdminRoute>
-              <ComingSoonPage title="Manage Events" />
+              <EventsList />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/events/new"
+          element={
+            <AdminRoute>
+              <EventForm />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/events/:eventId/edit"
+          element={
+            <AdminRoute>
+              <EventForm />
             </AdminRoute>
           }
         />

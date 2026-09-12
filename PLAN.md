@@ -30,7 +30,11 @@
             member-photos with old-file cleanup, socials, cycle-safe
             "Reports to" dropdown via getDescendantIds), delete blocked
             while a member has direct reports
-      - [ ] Events CRUD
+      - [x] Events CRUD (/admin/events): list sorted most-recent-first,
+            add/edit form (thumbnail upload to event-thumbnails with
+            old-file cleanup, category dropdown matching the enum exactly,
+            external_link URL validation), delete with confirmation +
+            storage cleanup
       - [ ] Achievements CRUD
       - [ ] Gallery CRUD
 - [ ] Real data population (members, events, achievements, gallery)
