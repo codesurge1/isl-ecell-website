@@ -22,6 +22,21 @@
 - [x] Contact — static page (no Supabase calls): mailto link, location,
       social links; no contact form, no join/recruitment mention
 - [ ] Admin panel — login, manage members/events/achievements/gallery
+      - [x] Auth layer: Supabase email/password login (/admin/login),
+            ProtectedRoute session gate on all other /admin/* routes,
+            session persists across refresh, logout clears the session
+      - [x] Members CRUD (/admin/members): list with hierarchy indentation
+            and resolved "Reports to" names, add/edit form (photo upload to
+            member-photos with old-file cleanup, socials, cycle-safe
+            "Reports to" dropdown via getDescendantIds), delete blocked
+            while a member has direct reports
+      - [x] Events CRUD (/admin/events): list sorted most-recent-first,
+            add/edit form (thumbnail upload to event-thumbnails with
+            old-file cleanup, category dropdown matching the enum exactly,
+            external_link URL validation), delete with confirmation +
+            storage cleanup
+      - [ ] Achievements CRUD
+      - [ ] Gallery CRUD
 - [ ] Real data population (members, events, achievements, gallery)
 - [ ] QA pass
 

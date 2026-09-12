@@ -16,3 +16,31 @@ export function buildMemberTree(members) {
 
   return roots
 }
+
+function findNode(nodes, id) {
+  for (const node of nodes) {
+    if (node.id === id) return node
+    const found = findNode(node.children, id)
+    if (found) return found
+  }
+  return null
+}
+
+// Collects the ids of every descendant of the member with the given id, by
+// building the tree (via buildMemberTree above) and walking down from that
+// member's node. Used to block "Reports to" reassignments that would
+// create a cycle — a member can never report to one of its own reports.
+export function getDescendantIds(members, memberId) {
+  const target = findNode(buildMemberTree(members), memberId)
+  const ids = new Set()
+  if (!target) return ids
+
+  function collect(node) {
+    for (const child of node.children) {
+      ids.add(child.id)
+      collect(child)
+    }
+  }
+  collect(target)
+  return ids
+}
