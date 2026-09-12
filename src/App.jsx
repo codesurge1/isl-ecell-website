@@ -18,6 +18,8 @@ import MembersList from './admin/members/MembersList.jsx'
 import MemberForm from './admin/members/MemberForm.jsx'
 import EventsList from './admin/events/EventsList.jsx'
 import EventForm from './admin/events/EventForm.jsx'
+import AchievementsList from './admin/achievements/AchievementsList.jsx'
+import AchievementForm from './admin/achievements/AchievementForm.jsx'
 
 function PublicLayout({ children }) {
   return (
@@ -106,7 +108,15 @@ function App() {
           path="/admin/achievements"
           element={
             <AdminRoute>
-              <ComingSoonPage title="Manage Achievements" />
+              <AchievementsList />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/achievements/new"
+          element={
+            <AdminRoute>
+              <AchievementForm />
             </AdminRoute>
           }
         />

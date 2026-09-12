@@ -35,7 +35,10 @@
             old-file cleanup, category dropdown matching the enum exactly,
             external_link URL validation), delete with confirmation +
             storage cleanup
-      - [ ] Achievements CRUD
+      - [x] Achievements upload/delete (/admin/achievements): list sorted
+            most-recent-first, add-only form (image upload to
+            achievement-images, optional per schema), delete with
+            confirmation + storage cleanup — no edit form, per scope
       - [ ] Gallery CRUD
 - [ ] Real data population (members, events, achievements, gallery)
 - [ ] QA pass

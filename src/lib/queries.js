@@ -5,8 +5,8 @@ import { supabase } from './supabaseClient.js'
 // failed fetch (e.g. render an error state) instead of needing a try/catch
 // around every call site. Writes (RLS-gated to the authenticated admin
 // session) are being added table by table as each admin CRUD section is
-// built — members' and events' are below; achievements/gallery are still
-// read-only.
+// built — members', events', and achievements' are below; gallery is
+// still read-only.
 
 export async function getMembers() {
   return supabase.from('members').select('*').order('created_at', { ascending: true })
@@ -54,6 +54,14 @@ export async function deleteEvent(id) {
 
 export async function getAchievements() {
   return supabase.from('achievements').select('*')
+}
+
+export async function createAchievement(achievement) {
+  return supabase.from('achievements').insert(achievement).select().single()
+}
+
+export async function deleteAchievement(id) {
+  return supabase.from('achievements').delete().eq('id', id)
 }
 
 export async function getGallery() {
