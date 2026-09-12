@@ -12,6 +12,8 @@ import Gallery from './pages/Gallery.jsx'
 import Contact from './pages/Contact.jsx'
 import AdminLogin from './admin/AdminLogin.jsx'
 import AdminDashboard from './admin/AdminDashboard.jsx'
+import AdminRoute from './admin/AdminRoute.jsx'
+import ComingSoonPage from './admin/ComingSoonPage.jsx'
 
 function PublicLayout({ children }) {
   return (
@@ -38,9 +40,48 @@ function App() {
         <Route path="/gallery" element={<PublicLayout><Gallery /></PublicLayout>} />
         <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
 
-        {/* Admin route group — gated behind auth in a later phase */}
+        {/* Admin route group — every route but /admin/login is gated by AdminRoute */}
         <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/members"
+          element={
+            <AdminRoute>
+              <ComingSoonPage title="Manage Members" />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/events"
+          element={
+            <AdminRoute>
+              <ComingSoonPage title="Manage Events" />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/achievements"
+          element={
+            <AdminRoute>
+              <ComingSoonPage title="Manage Achievements" />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/gallery"
+          element={
+            <AdminRoute>
+              <ComingSoonPage title="Manage Gallery" />
+            </AdminRoute>
+          }
+        />
       </Routes>
     </AnimatePresence>
   )

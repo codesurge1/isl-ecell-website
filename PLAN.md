@@ -22,6 +22,13 @@
 - [x] Contact — static page (no Supabase calls): mailto link, location,
       social links; no contact form, no join/recruitment mention
 - [ ] Admin panel — login, manage members/events/achievements/gallery
+      - [x] Auth layer: Supabase email/password login (/admin/login),
+            ProtectedRoute session gate on all other /admin/* routes,
+            session persists across refresh, logout clears the session
+      - [ ] Members CRUD
+      - [ ] Events CRUD
+      - [ ] Achievements CRUD
+      - [ ] Gallery CRUD
 - [ ] Real data population (members, events, achievements, gallery)
 - [ ] QA pass
 
