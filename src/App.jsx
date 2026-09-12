@@ -10,6 +10,7 @@ import MemberProfile from './pages/MemberProfile.jsx'
 import Achievements from './pages/Achievements.jsx'
 import Gallery from './pages/Gallery.jsx'
 import Contact from './pages/Contact.jsx'
+import NotFound from './pages/NotFound.jsx'
 import AdminLogin from './admin/AdminLogin.jsx'
 import AdminDashboard from './admin/AdminDashboard.jsx'
 import AdminRoute from './admin/AdminRoute.jsx'
@@ -137,6 +138,9 @@ function App() {
             </AdminRoute>
           }
         />
+
+        {/* Catch-all: any URL that doesn't match a route above */}
+        <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />
       </Routes>
     </AnimatePresence>
   )
