@@ -10,14 +10,18 @@ import MemberProfile from './pages/MemberProfile.jsx'
 import Achievements from './pages/Achievements.jsx'
 import Gallery from './pages/Gallery.jsx'
 import Contact from './pages/Contact.jsx'
+import NotFound from './pages/NotFound.jsx'
 import AdminLogin from './admin/AdminLogin.jsx'
 import AdminDashboard from './admin/AdminDashboard.jsx'
 import AdminRoute from './admin/AdminRoute.jsx'
-import ComingSoonPage from './admin/ComingSoonPage.jsx'
 import MembersList from './admin/members/MembersList.jsx'
 import MemberForm from './admin/members/MemberForm.jsx'
 import EventsList from './admin/events/EventsList.jsx'
 import EventForm from './admin/events/EventForm.jsx'
+import AchievementsList from './admin/achievements/AchievementsList.jsx'
+import AchievementForm from './admin/achievements/AchievementForm.jsx'
+import GalleryList from './admin/gallery/GalleryList.jsx'
+import GalleryForm from './admin/gallery/GalleryForm.jsx'
 
 function PublicLayout({ children }) {
   return (
@@ -106,7 +110,15 @@ function App() {
           path="/admin/achievements"
           element={
             <AdminRoute>
-              <ComingSoonPage title="Manage Achievements" />
+              <AchievementsList />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/achievements/new"
+          element={
+            <AdminRoute>
+              <AchievementForm />
             </AdminRoute>
           }
         />
@@ -114,10 +126,21 @@ function App() {
           path="/admin/gallery"
           element={
             <AdminRoute>
-              <ComingSoonPage title="Manage Gallery" />
+              <GalleryList />
             </AdminRoute>
           }
         />
+        <Route
+          path="/admin/gallery/new"
+          element={
+            <AdminRoute>
+              <GalleryForm />
+            </AdminRoute>
+          }
+        />
+
+        {/* Catch-all: any URL that doesn't match a route above */}
+        <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />
       </Routes>
     </AnimatePresence>
   )
