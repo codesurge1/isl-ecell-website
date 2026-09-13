@@ -93,7 +93,7 @@ function Lightbox({ item, onClose }) {
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute -right-3 -top-3 flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--color-glow-accent)]/60 bg-[color:var(--color-bg-mid)] text-[color:var(--color-glow-accent)]"
+          className="absolute -right-3 -top-3 flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--color-brand-accent)]/60 bg-[color:var(--color-bg-black)] text-[color:var(--color-brand-accent)]"
         >
           <CloseIcon className="h-5 w-5" />
         </button>
@@ -105,13 +105,13 @@ function Lightbox({ item, onClose }) {
             className="max-h-[80vh] w-auto rounded-xl object-contain"
           />
         ) : (
-          <div className="flex h-[60vh] w-[70vw] max-w-xl items-center justify-center rounded-xl border border-[color:var(--color-glow-accent)]/20 bg-gradient-to-br from-[color:var(--color-bg-mid)] to-[color:var(--color-bg-base)]">
-            <PhotoIcon className="h-16 w-16 text-[color:var(--color-glow-accent)]" />
+          <div className="flex h-[60vh] w-[70vw] max-w-xl items-center justify-center rounded-xl border border-[color:var(--color-brand-accent)]/30 bg-[color:var(--color-bg-black)]">
+            <PhotoIcon className="h-16 w-16 text-[color:var(--color-brand-accent)]" />
           </div>
         )}
 
         {item.caption && (
-          <p className="mt-3 text-center text-sm text-[color:var(--color-text-secondary)]">
+          <p className="mt-3 text-center text-sm text-[color:var(--color-text-muted)]">
             {item.caption}
           </p>
         )}
@@ -168,29 +168,29 @@ function Gallery() {
   }
 
   return (
-    <main className="bg-[color:var(--color-bg-base)] px-4 py-20">
+    <main className="bg-[color:var(--color-bg-black)] px-4 py-20">
       <div className="mx-auto max-w-5xl">
-        <h1 className="text-center font-heading text-4xl text-[color:var(--color-text-primary)] md:text-5xl">
+        <h1 className="text-center font-display text-5xl tracking-wide text-[color:var(--color-text-primary)] md:text-6xl">
           Gallery
         </h1>
-        <p className="mx-auto mt-3 max-w-xl text-center text-[color:var(--color-text-secondary)]">
+        <p className="mx-auto mt-3 max-w-xl text-center text-[color:var(--color-text-muted)]">
           Moments from workshops, talks, and everything in between.
         </p>
 
         {loading && (
-          <p className="mt-12 text-center text-[color:var(--color-text-secondary)]">
+          <p className="mt-12 text-center text-[color:var(--color-text-muted)]">
             Loading gallery…
           </p>
         )}
 
         {!loading && error && (
-          <p className="mt-12 text-center text-[color:var(--color-text-secondary)]">
+          <p className="mt-12 text-center text-[color:var(--color-text-muted)]">
             Couldn't load the gallery right now. Please try again later.
           </p>
         )}
 
         {!loading && !error && sorted.length === 0 && (
-          <p className="mt-12 text-center text-[color:var(--color-text-secondary)]">
+          <p className="mt-12 text-center text-[color:var(--color-text-muted)]">
             No photos yet — check back soon.
           </p>
         )}
