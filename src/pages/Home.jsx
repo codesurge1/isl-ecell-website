@@ -9,10 +9,10 @@ import PlaceholderPhoto from '../components/PlaceholderPhoto.jsx'
 
 // PLACEHOLDER STATS — replace with real figures before launch
 const STATS = [
-  { value: 50, suffix: '+', label: 'Members' },
-  { value: 12, suffix: '+', label: 'Events Hosted' },
-  { value: 3, suffix: '+', label: 'Years Active' },
-  { value: 5, suffix: '+', label: 'Startups Mentored' },
+  { value: 40, suffix: '+', label: 'Members' },
+  { value: 15, suffix: '+', label: 'Events Hosted' },
+  { value: 2, suffix: '+', label: 'Years Active' },
+  { value: 6, suffix: '+', label: 'Startups Mentored' },
 ]
 
 const heroContainerVariants = {
@@ -229,7 +229,7 @@ function AboutPreviewSection() {
           to="/about"
           className="mt-4 inline-block text-[color:var(--color-brand-accent)] hover:underline"
         >
-          Read our story →
+          Read our story
         </Link>
       </div>
     </section>
@@ -344,7 +344,7 @@ function GalleryTeaserSection() {
             to="/gallery"
             className="whitespace-nowrap text-[color:var(--color-brand-accent)] hover:underline"
           >
-            Explore the gallery →
+            Explore the gallery
           </Link>
         </div>
 
@@ -508,7 +508,7 @@ function ClosingCtaSection() {
         to="/contact"
         className="mt-6 inline-block text-[color:var(--color-glow-accent)] hover:underline"
       >
-        Get in touch →
+        Get in touch
       </Link>
     </section>
   )
