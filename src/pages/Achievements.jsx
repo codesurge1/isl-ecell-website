@@ -4,12 +4,18 @@ import { getAchievements } from '../lib/queries.js'
 import { usePrefersReducedMotion } from '../lib/use-prefers-reduced-motion.js'
 import { PhotoIcon } from '../components/PlaceholderPhoto.jsx'
 
-function MedalIcon(props) {
+// Same trophy icon already used for Achievements elsewhere on the site
+// (Home's Bento card, Events' Competitions chip) — the previous MedalIcon
+// here (a circle with two diverging diagonal lines above it, meant as
+// ribbon straps) read ambiguously as horns on a head rather than a medal.
+function TrophyIcon(props) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" {...props}>
-      <circle cx="12" cy="15" r="6" />
-      <path d="M9 9.5 6 3M15 9.5l3-6.5" />
-      <path d="M10 15l1.3 1.3L15 13" />
+      <path d="M8 4h8v5a4 4 0 0 1-8 0V4z" />
+      <path d="M8 5H5a3 3 0 0 0 3 4M16 5h3a3 3 0 0 1-3 4" />
+      <line x1="12" y1="13" x2="12" y2="17" />
+      <line x1="9" y1="20" x2="15" y2="20" />
+      <line x1="12" y1="17" x2="12" y2="20" />
     </svg>
   )
 }
@@ -75,7 +81,7 @@ function AchievementCard({ achievement }) {
             className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[color:var(--color-brand-accent)]/10 blur-3xl"
             aria-hidden="true"
           />
-          <MedalIcon className="relative z-10 h-8 w-8 text-[color:var(--color-brand-accent)]" />
+          <TrophyIcon className="relative z-10 h-8 w-8 text-[color:var(--color-brand-accent)]" />
 
           <div className="relative z-10 mt-8 flex-1">
             <h3 className="font-heading text-xl text-[color:var(--color-text-primary)]">
