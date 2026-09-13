@@ -31,17 +31,24 @@
   --color-glow-accent-rgb: 157, 127, 232;
 }
 
-body {
-  background-color: var(--color-bg-base);
-  color: var(--color-text-primary);
-  font-family: var(--font-body);
-}
+/* Base element defaults belong in Tailwind's base layer, not the plain
+   (unlayered) CSS origin — unlayered rules always outrank @layer
+   utilities regardless of specificity, which would silently defeat any
+   font-family utility (e.g. font-display) applied directly to an
+   h1-h6 tag. */
+@layer base {
+  body {
+    background-color: var(--color-bg-base);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+  }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-heading);
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+  }
 }
