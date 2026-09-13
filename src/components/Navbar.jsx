@@ -86,7 +86,7 @@ function Navbar() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <Link to="/" className="flex items-center gap-2 text-lg text-white transition-colors hover:text-[color:var(--color-brand-accent)]">
           <img src={logoMark} alt="" className="h-8 w-auto" />
-          <span className="font-display tracking-wide">ISL E-cell</span>
+          <span className="font-bold tracking-wide">ISL E-cell</span>
         </Link>
 
         <nav className="hidden items-center gap-2 md:flex">

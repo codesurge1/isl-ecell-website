@@ -30,9 +30,12 @@ note. Navbar, Footer, and Button have already moved to the palette above.
 
 ## Typography
 
-- Display/headlines: Anton (Google Fonts) — the Navbar/Footer wordmark
-  uses it now; page headings migrate to it as each page is redesigned.
-- Body/UI: Inter (Google Fonts)
+- Display/headlines: Anton (Google Fonts) — reads bold/condensed/high-
+  impact at display sizes (32px+), but cramped at small UI sizes, so it's
+  reserved for page headlines as each page is redesigned, not for the
+  Navbar/Footer wordmark.
+- Body/UI: Inter (Google Fonts). The Navbar/Footer wordmark uses Inter at
+  font-bold (700) rather than Anton, for the legibility reason above.
 - Legacy heading font (Space Grotesk) still used by not-yet-redesigned
   pages.
 

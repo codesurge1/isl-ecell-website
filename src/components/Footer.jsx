@@ -10,7 +10,7 @@ function Footer() {
   return (
     <footer className="border-t border-white/15 bg-[color:var(--color-bg-black)] px-4 py-10 text-[color:var(--color-text-muted)]">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 text-center">
-        <Link to="/" className="font-display tracking-wide text-lg text-white transition-colors hover:text-[color:var(--color-brand-accent)]">
+        <Link to="/" className="font-bold tracking-wide text-lg text-white transition-colors hover:text-[color:var(--color-brand-accent)]">
           ISL E-cell
         </Link>
         <p className="text-sm">Visionary Questers</p>

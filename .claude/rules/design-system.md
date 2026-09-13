@@ -33,11 +33,16 @@ old and new tokens within the same component.
 
 ## Typography
 
-- Display/headlines: Anton — bold, condensed, high-impact. Used for the
-  Navbar/Footer wordmark and will extend to page headlines as pages are
-  redesigned.
-- Body/UI: Inter. Nav links and other UI-level text stay Inter even where
-  they sit next to an Anton wordmark.
+- Display/headlines: Anton — bold, condensed, high-impact, but only at
+  actual display sizes (tested: reads great at 32px+). At small UI sizes
+  like an 18px nav wordmark its mixed-case letterforms compress and read
+  cramped rather than bold — verified by rendering the real font, not
+  guessed from a screenshot where the webfont had silently failed to load.
+  Reserved for page headlines as pages are redesigned; not used in the
+  Navbar/Footer wordmark for this reason.
+- Body/UI: Inter. Nav links stay Inter at regular weight; the Navbar/
+  Footer wordmark uses Inter at font-bold (700) rather than Anton, for the
+  small-size legibility reason above.
 - Legacy heading font (Space Grotesk) still applies to not-yet-redesigned
   page headings — migrate to Anton as part of each page's redesign pass.
 - Sizes and weights are left flexible for now — will be refined in Phase 1.
