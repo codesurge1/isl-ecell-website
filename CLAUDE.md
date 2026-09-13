@@ -13,21 +13,28 @@ backed by Supabase for data and storage.
 - React Router (public pages + a separate gated `/admin` route group)
 - Supabase (database, auth, storage) — added in a later phase
 
-## Color palette (locked)
+## Color palette (current identity)
 
 | Role | Hex |
 |---|---|
-| Background base | #05070D |
-| Background mid (navy) | #0E1B33 |
+| Base black | #0A0A0A |
+| Red (primary accent, used boldly) | #B31E2D |
 | Primary text | #FFFFFF |
-| Secondary text | #C6D0E0 |
-| Brand accent (CTAs, active states) | #B31E2D |
-| Glow accent (constellation only) | #9D7FE8 |
+| Muted/secondary text | #8A8A8A |
+| Glow accent (Team constellation only) | #9D7FE8 |
+
+Not-yet-redesigned pages still run on an older navy/cosmic palette
+(#05070D base, #0E1B33 navy mid, #C6D0E0 secondary text) — see
+`.claude/rules/design-system.md` for the full legacy table and migration
+note. Navbar, Footer, and Button have already moved to the palette above.
 
 ## Typography
 
-- Headings: Space Grotesk (Google Fonts)
-- Body: Inter (Google Fonts)
+- Display/headlines: Anton (Google Fonts) — the Navbar/Footer wordmark
+  uses it now; page headings migrate to it as each page is redesigned.
+- Body/UI: Inter (Google Fonts)
+- Legacy heading font (Space Grotesk) still used by not-yet-redesigned
+  pages.
 
 ## Hard rules
 
