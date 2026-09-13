@@ -79,15 +79,18 @@ function excerpt(text, maxLength = 110) {
   return `${text.slice(0, maxLength).trimEnd()}…`
 }
 
+// Mirrors the Navbar's active-link treatment exactly (rounded-full, solid
+// red fill + white text when active; muted text with a plain hover shift
+// when not) rather than inventing a separate active-state pattern here.
 function CategoryChip({ label, active, onClick }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
+      className={`rounded-full px-4 py-1.5 text-sm tracking-wide transition-colors ${
         active
-          ? 'border-[color:var(--color-glow-accent)] bg-[color:var(--color-glow-accent)]/10 text-[color:var(--color-glow-accent)]'
-          : 'border-[color:var(--color-glow-accent)]/20 text-[color:var(--color-text-secondary)] hover:text-[color:var(--color-text-primary)]'
+          ? 'bg-[color:var(--color-brand-accent)] text-white'
+          : 'text-[color:var(--color-text-muted)] hover:text-white'
       }`}
     >
       {label}
@@ -119,31 +122,31 @@ function EventCard({ event }) {
     >
       <Shell
         {...shellProps}
-        className="relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-[color:var(--color-glow-accent)]/20 bg-gradient-to-br from-[color:var(--color-bg-mid)] to-[color:var(--color-bg-base)] p-6 text-left shadow-[0_0_30px_-10px_rgba(var(--color-glow-accent-rgb),0.25)]"
+        className="relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-[color:var(--color-brand-accent)]/30 bg-[color:var(--color-bg-black)] p-6 text-left"
       >
         <div
-          className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[color:var(--color-glow-accent)]/10 blur-3xl"
+          className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[color:var(--color-brand-accent)]/10 blur-3xl"
           aria-hidden="true"
         />
-        <Icon className="relative z-10 h-8 w-8 text-[color:var(--color-glow-accent)]" />
+        <Icon className="relative z-10 h-8 w-8 text-[color:var(--color-brand-accent)]" />
 
         <div className="relative z-10 mt-8 flex-1">
-          <span className="inline-block rounded-full border border-[color:var(--color-glow-accent)]/40 px-2.5 py-0.5 text-xs text-[color:var(--color-glow-accent)]">
+          <span className="inline-block rounded-full border border-[color:var(--color-brand-accent)]/40 px-2.5 py-0.5 text-xs text-[color:var(--color-brand-accent)]">
             {event.category}
           </span>
           <h3 className="mt-3 font-heading text-xl text-[color:var(--color-text-primary)]">
             {event.title}
           </h3>
-          <p className="mt-1 text-sm text-[color:var(--color-text-secondary)]">
+          <p className="mt-1 text-sm text-[color:var(--color-text-muted)]">
             {formatDate(event.date)}
           </p>
-          <p className="mt-3 text-sm text-[color:var(--color-text-secondary)]">
+          <p className="mt-3 text-sm text-[color:var(--color-text-muted)]">
             {hasLink || expanded ? event.description : excerpt(event.description)}
           </p>
         </div>
 
         {!hasLink && (
-          <span className="relative z-10 mt-4 text-xs text-[color:var(--color-glow-accent)]">
+          <span className="relative z-10 mt-4 text-xs text-[color:var(--color-brand-accent)]">
             {expanded ? 'Show less' : 'Read more'}
           </span>
         )}
@@ -155,11 +158,11 @@ function EventCard({ event }) {
 function EventsSection({ title, events }) {
   return (
     <div>
-      <h2 className="font-heading text-2xl text-[color:var(--color-text-primary)]">{title}</h2>
+      <h2 className="font-display text-2xl tracking-wide text-[color:var(--color-text-primary)]">
+        {title}
+      </h2>
       {events.length === 0 ? (
-        <p className="mt-4 text-[color:var(--color-text-secondary)]">
-          No events in this category yet.
-        </p>
+        <p className="mt-4 text-[color:var(--color-text-muted)]">No events in this category yet.</p>
       ) : (
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {events.map((event) => (
@@ -213,12 +216,12 @@ function Events() {
     .sort((a, b) => b.date.localeCompare(a.date))
 
   return (
-    <main className="bg-[color:var(--color-bg-base)] px-4 py-20">
+    <main className="bg-[color:var(--color-bg-black)] px-4 py-20">
       <div className="mx-auto max-w-5xl">
-        <h1 className="text-center font-heading text-4xl text-[color:var(--color-text-primary)] md:text-5xl">
+        <h1 className="text-center font-display text-5xl tracking-wide text-[color:var(--color-text-primary)] md:text-6xl">
           Events &amp; Timeline
         </h1>
-        <p className="mx-auto mt-3 max-w-xl text-center text-[color:var(--color-text-secondary)]">
+        <p className="mx-auto mt-3 max-w-xl text-center text-[color:var(--color-text-muted)]">
           Workshops, talks, competitions, and the flagship moments that bring our community
           together.
         </p>
@@ -236,13 +239,13 @@ function Events() {
         </div>
 
         {loading && (
-          <p className="mt-12 text-center text-[color:var(--color-text-secondary)]">
+          <p className="mt-12 text-center text-[color:var(--color-text-muted)]">
             Loading events…
           </p>
         )}
 
         {!loading && error && (
-          <p className="mt-12 text-center text-[color:var(--color-text-secondary)]">
+          <p className="mt-12 text-center text-[color:var(--color-text-muted)]">
             Couldn't load events right now. Please try again later.
           </p>
         )}
