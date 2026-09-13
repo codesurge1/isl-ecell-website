@@ -4,6 +4,7 @@ import { motion, useInView } from 'framer-motion'
 import { getAchievements, getEvents } from '../lib/queries.js'
 import { usePrefersReducedMotion } from '../lib/use-prefers-reduced-motion.js'
 import Starfield from '../components/Starfield.jsx'
+import GlowOrb from '../components/GlowOrb.jsx'
 
 // PLACEHOLDER STATS — replace with real figures before launch
 const STATS = [
@@ -86,11 +87,11 @@ function HeroCta({ prefersReducedMotion }) {
         <motion.span
           whileHover={
             prefersReducedMotion
-              ? { filter: 'brightness(1.2)' }
-              : { scale: 1.05, filter: 'brightness(1.3)' }
+              ? { filter: 'brightness(1.15)' }
+              : { y: -3, filter: 'brightness(1.15)' }
           }
           transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
-          className="inline-block rounded-full border border-[color:var(--color-glow-accent)]/80 bg-[color:var(--color-bg-mid)]/60 px-8 py-3 font-heading text-[color:var(--color-text-primary)] shadow-[0_0_14px_2px_rgba(var(--color-glow-accent-rgb),0.6),0_0_34px_8px_rgba(var(--color-glow-accent-rgb),0.35),0_0_64px_16px_rgba(var(--color-glow-accent-rgb),0.15)]"
+          className="inline-block rounded-md bg-[color:var(--color-brand-accent)] px-8 py-3 font-heading text-[color:var(--color-text-primary)]"
         >
           Meet the team
         </motion.span>
@@ -99,42 +100,111 @@ function HeroCta({ prefersReducedMotion }) {
   )
 }
 
+// A small, self-contained cluster of glowing nodes — a visual quote of the
+// Team constellation page, foreshadowing what's on the other side of the
+// CTA. Static layout (percentage-positioned nodes + a matching SVG edge
+// list); only the per-node glow pulse moves, via the same GlowOrb
+// primitive the real constellation uses. Decorative only, so it's hidden
+// from assistive tech and omitted below the two-column breakpoint rather
+// than squeezed into a phone-width layout.
+const HERO_NODES = [
+  { id: 'hero-node-1', x: 18, y: 30, size: 'h-5 w-5', ring: 'sm' },
+  { id: 'hero-node-2', x: 54, y: 12, size: 'h-7 w-7', ring: 'md' },
+  { id: 'hero-node-3', x: 82, y: 38, size: 'h-4 w-4', ring: 'sm' },
+  { id: 'hero-node-4', x: 44, y: 64, size: 'h-10 w-10', ring: 'lg' },
+  { id: 'hero-node-5', x: 76, y: 82, size: 'h-5 w-5', ring: 'sm' },
+]
+
+const HERO_EDGES = [
+  ['hero-node-1', 'hero-node-2'],
+  ['hero-node-2', 'hero-node-3'],
+  ['hero-node-2', 'hero-node-4'],
+  ['hero-node-1', 'hero-node-4'],
+  ['hero-node-4', 'hero-node-5'],
+]
+
+const HERO_NODE_RINGS = {
+  sm: 'border border-[color:var(--color-glow-accent)]/50 shadow-[0_0_5px_1px_rgba(var(--color-glow-accent-rgb),0.5),0_0_12px_3px_rgba(var(--color-glow-accent-rgb),0.25)]',
+  md: 'border border-[color:var(--color-glow-accent)]/65 shadow-[0_0_7px_1px_rgba(var(--color-glow-accent-rgb),0.65),0_0_18px_4px_rgba(var(--color-glow-accent-rgb),0.3)]',
+  lg: 'border border-[color:var(--color-glow-accent)]/80 shadow-[0_0_10px_2px_rgba(var(--color-glow-accent-rgb),0.8),0_0_26px_6px_rgba(var(--color-glow-accent-rgb),0.4),0_0_48px_12px_rgba(var(--color-glow-accent-rgb),0.18)]',
+}
+
+function HeroNodeCluster() {
+  const nodeById = Object.fromEntries(HERO_NODES.map((node) => [node.id, node]))
+
+  return (
+    <div className="relative mx-auto aspect-square w-full max-w-sm" aria-hidden="true">
+      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+        {HERO_EDGES.map(([fromId, toId]) => {
+          const from = nodeById[fromId]
+          const to = nodeById[toId]
+          return (
+            <line
+              key={`${fromId}-${toId}`}
+              x1={from.x}
+              y1={from.y}
+              x2={to.x}
+              y2={to.y}
+              strokeWidth="0.4"
+              className="drop-shadow-[0_0_3px_rgba(var(--color-glow-accent-rgb),0.5)]"
+              style={{ stroke: 'rgba(var(--color-glow-accent-rgb), 0.4)' }}
+            />
+          )
+        })}
+      </svg>
+
+      {HERO_NODES.map((node) => (
+        <div
+          key={node.id}
+          className="absolute -translate-x-1/2 -translate-y-1/2"
+          style={{ left: `${node.x}%`, top: `${node.y}%` }}
+        >
+          <GlowOrb
+            wrapperClassName={node.size}
+            ringClassName={HERO_NODE_RINGS[node.ring]}
+            pulseSeed={node.id}
+          />
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function HeroSection() {
   const prefersReducedMotion = usePrefersReducedMotion()
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-b from-[color:var(--color-bg-base)] to-[color:var(--color-bg-mid)] px-4 text-center">
+    <section className="relative flex min-h-screen items-center overflow-hidden bg-gradient-to-b from-[color:var(--color-bg-base)] to-[color:var(--color-bg-mid)] px-4 py-24">
       <Starfield />
 
-      <motion.div
-        variants={heroContainerVariants}
-        initial={prefersReducedMotion ? 'show' : 'hidden'}
-        animate="show"
-        className="relative z-10 flex max-w-2xl flex-col items-center gap-6"
-      >
-        <motion.p
-          variants={heroItemVariants}
-          className="font-heading text-sm uppercase tracking-[0.3em] text-[color:var(--color-glow-accent)]"
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-12 md:flex-row md:items-center md:justify-between md:gap-8">
+        <motion.div
+          variants={heroContainerVariants}
+          initial={prefersReducedMotion ? 'show' : 'hidden'}
+          animate="show"
+          className="flex max-w-xl flex-col items-center gap-6 text-center md:w-[58%] md:max-w-none md:items-start md:text-left"
         >
-          ISL E-cell
-        </motion.p>
+          <motion.h1
+            variants={heroItemVariants}
+            className="font-heading text-5xl font-bold text-[color:var(--color-text-primary)] md:text-7xl"
+          >
+            Visionary Questers
+          </motion.h1>
 
-        <motion.h1
-          variants={heroItemVariants}
-          className="font-heading text-5xl font-bold text-[color:var(--color-text-primary)] md:text-7xl"
-        >
-          Visionary Questers
-        </motion.h1>
+          <motion.p
+            variants={heroItemVariants}
+            className="max-w-xl text-base text-[color:var(--color-text-secondary)] md:text-lg"
+          >
+            The Entrepreneurship Cell of ISL — turning curiosity into ventures, one idea at a time.
+          </motion.p>
 
-        <motion.p
-          variants={heroItemVariants}
-          className="max-w-xl text-base text-[color:var(--color-text-secondary)] md:text-lg"
-        >
-          The Entrepreneurship Cell of ISL — turning curiosity into ventures, one idea at a time.
-        </motion.p>
+          <HeroCta prefersReducedMotion={prefersReducedMotion} />
+        </motion.div>
 
-        <HeroCta prefersReducedMotion={prefersReducedMotion} />
-      </motion.div>
+        <div className="hidden md:block md:w-[36%]">
+          <HeroNodeCluster />
+        </div>
+      </div>
     </section>
   )
 }
