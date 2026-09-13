@@ -1,11 +1,11 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { motion, useInView } from 'framer-motion'
 import { getAchievements, getEvents, getGallery } from '../lib/queries.js'
 import { usePrefersReducedMotion } from '../lib/use-prefers-reduced-motion.js'
-import Starfield from '../components/Starfield.jsx'
-import GlowOrb from '../components/GlowOrb.jsx'
 import PlaceholderPhoto from '../components/PlaceholderPhoto.jsx'
+import Button from '../components/Button.jsx'
+import logoMark from '../assets/logo-mark.png'
 
 // PLACEHOLDER STATS — replace with real figures before launch
 const STATS = [
@@ -81,93 +81,43 @@ function findMostRecentAchievement(achievements) {
   return [...achievements].sort((a, b) => b.date.localeCompare(a.date))[0]
 }
 
-function HeroCta({ prefersReducedMotion }) {
+function HeroCta() {
+  const navigate = useNavigate()
+
   return (
     <motion.div variants={heroItemVariants}>
-      <Link to="/team">
-        <motion.span
-          whileHover={
-            prefersReducedMotion
-              ? { filter: 'brightness(1.15)' }
-              : { y: -3, filter: 'brightness(1.15)' }
-          }
-          transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
-          className="inline-block rounded-md bg-[color:var(--color-brand-accent)] px-8 py-3 font-heading text-[color:var(--color-text-primary)]"
-        >
-          Meet the team
-        </motion.span>
-      </Link>
+      <Button onClick={() => navigate('/team')}>Meet the team</Button>
     </motion.div>
   )
 }
 
-// A small, self-contained cluster of glowing nodes — a visual quote of the
-// Team constellation page, foreshadowing what's on the other side of the
-// CTA. Static layout (percentage-positioned nodes + a matching SVG edge
-// list); only the per-node glow pulse moves, via the same GlowOrb
-// primitive the real constellation uses. Decorative only, so it's hidden
-// from assistive tech and omitted below the two-column breakpoint rather
-// than squeezed into a phone-width layout.
-const HERO_NODES = [
-  { id: 'hero-node-1', x: 18, y: 30, size: 'h-5 w-5', ring: 'sm' },
-  { id: 'hero-node-2', x: 54, y: 12, size: 'h-7 w-7', ring: 'md' },
-  { id: 'hero-node-3', x: 82, y: 38, size: 'h-4 w-4', ring: 'sm' },
-  { id: 'hero-node-4', x: 44, y: 64, size: 'h-10 w-10', ring: 'lg' },
-  { id: 'hero-node-5', x: 76, y: 82, size: 'h-5 w-5', ring: 'sm' },
-]
-
-const HERO_EDGES = [
-  ['hero-node-1', 'hero-node-2'],
-  ['hero-node-2', 'hero-node-3'],
-  ['hero-node-2', 'hero-node-4'],
-  ['hero-node-1', 'hero-node-4'],
-  ['hero-node-4', 'hero-node-5'],
-]
-
-const HERO_NODE_RINGS = {
-  sm: 'border border-[color:var(--color-glow-accent)]/50 shadow-[0_0_5px_1px_rgba(var(--color-glow-accent-rgb),0.5),0_0_12px_3px_rgba(var(--color-glow-accent-rgb),0.25)]',
-  md: 'border border-[color:var(--color-glow-accent)]/65 shadow-[0_0_7px_1px_rgba(var(--color-glow-accent-rgb),0.65),0_0_18px_4px_rgba(var(--color-glow-accent-rgb),0.3)]',
-  lg: 'border border-[color:var(--color-glow-accent)]/80 shadow-[0_0_10px_2px_rgba(var(--color-glow-accent-rgb),0.8),0_0_26px_6px_rgba(var(--color-glow-accent-rgb),0.4),0_0_48px_12px_rgba(var(--color-glow-accent-rgb),0.18)]',
-}
-
-function HeroNodeCluster() {
-  const nodeById = Object.fromEntries(HERO_NODES.map((node) => [node.id, node]))
-
+// Hero's right-side element, replacing the old violet node-cluster (that
+// treatment is now Team-exclusive). Chose a large stylized version of the
+// logo mark over a fresh abstract graphic: it's already the site's actual
+// brand shape, so blowing it up here reinforces identity rather than
+// introducing a new decorative motif. Uses the source PNG purely as a CSS
+// mask (its alpha channel becomes the stencil), filled with solid red —
+// mask-based recoloring is exact, unlike chaining brightness/hue-rotate
+// filters to fake a color shift on a navy source image. Solid fill, no
+// blur/glow, no animation — flat and static, matching the rest of this
+// identity, and deliberately not reusing the orb pulse the Team page uses.
+function HeroMark() {
   return (
-    <div className="relative mx-auto aspect-square w-full max-w-sm" aria-hidden="true">
-      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-        {HERO_EDGES.map(([fromId, toId]) => {
-          const from = nodeById[fromId]
-          const to = nodeById[toId]
-          return (
-            <line
-              key={`${fromId}-${toId}`}
-              x1={from.x}
-              y1={from.y}
-              x2={to.x}
-              y2={to.y}
-              strokeWidth="0.4"
-              className="drop-shadow-[0_0_3px_rgba(var(--color-glow-accent-rgb),0.5)]"
-              style={{ stroke: 'rgba(var(--color-glow-accent-rgb), 0.4)' }}
-            />
-          )
-        })}
-      </svg>
-
-      {HERO_NODES.map((node) => (
-        <div
-          key={node.id}
-          className="absolute -translate-x-1/2 -translate-y-1/2"
-          style={{ left: `${node.x}%`, top: `${node.y}%` }}
-        >
-          <GlowOrb
-            wrapperClassName={node.size}
-            ringClassName={HERO_NODE_RINGS[node.ring]}
-            pulseSeed={node.id}
-          />
-        </div>
-      ))}
-    </div>
+    <div
+      aria-hidden="true"
+      className="mx-auto h-56 w-56 md:h-72 md:w-72"
+      style={{
+        backgroundColor: 'var(--color-brand-accent)',
+        WebkitMaskImage: `url(${logoMark})`,
+        maskImage: `url(${logoMark})`,
+        WebkitMaskSize: 'contain',
+        maskSize: 'contain',
+        WebkitMaskRepeat: 'no-repeat',
+        maskRepeat: 'no-repeat',
+        WebkitMaskPosition: 'center',
+        maskPosition: 'center',
+      }}
+    />
   )
 }
 
@@ -175,9 +125,7 @@ function HeroSection() {
   const prefersReducedMotion = usePrefersReducedMotion()
 
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden bg-gradient-to-b from-[color:var(--color-bg-base)] to-[color:var(--color-bg-mid)] px-4 py-24">
-      <Starfield />
-
+    <section className="relative flex min-h-screen items-center overflow-hidden bg-[color:var(--color-bg-black)] px-4 py-24">
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-12 md:flex-row md:items-center md:justify-between md:gap-8">
         <motion.div
           variants={heroContainerVariants}
@@ -187,23 +135,23 @@ function HeroSection() {
         >
           <motion.h1
             variants={heroItemVariants}
-            className="font-heading text-5xl font-bold text-[color:var(--color-text-primary)] md:text-7xl"
+            className="font-display text-6xl tracking-wide text-[color:var(--color-text-primary)] md:text-8xl"
           >
             Visionary Questers
           </motion.h1>
 
           <motion.p
             variants={heroItemVariants}
-            className="max-w-xl text-base text-[color:var(--color-text-secondary)] md:text-lg"
+            className="max-w-xl text-base text-[color:var(--color-text-muted)] md:text-lg"
           >
             The Entrepreneurship Cell of ISL — turning curiosity into ventures, one idea at a time.
           </motion.p>
 
-          <HeroCta prefersReducedMotion={prefersReducedMotion} />
+          <HeroCta />
         </motion.div>
 
         <div className="hidden md:block md:w-[36%]">
-          <HeroNodeCluster />
+          <HeroMark />
         </div>
       </div>
     </section>
@@ -215,9 +163,9 @@ function HeroSection() {
 // placeholder copy that could drift from or contradict it.
 function AboutPreviewSection() {
   return (
-    <section className="bg-[color:var(--color-bg-base)] px-4 py-16">
+    <section className="border-t border-white/10 bg-[color:var(--color-bg-black)] px-4 py-16">
       <div className="mx-auto max-w-2xl text-center">
-        <p className="text-base text-[color:var(--color-text-secondary)] md:text-lg">
+        <p className="text-base text-[color:var(--color-text-muted)] md:text-lg">
           An entrepreneurship cell exists to make starting something feel less like a leap and
           more like a next step — pairing curious students with the people, frameworks, and
           community it takes to test an idea for real. What started as informal late-night
@@ -261,12 +209,14 @@ const JOURNEY_STAGES = [
 function JourneyStage({ index, title, description }) {
   return (
     <div className="flex flex-col items-center gap-3 text-center md:flex-1">
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[color:var(--color-brand-accent)] font-heading text-sm text-[color:var(--color-brand-accent)]">
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[color:var(--color-brand-accent)] font-display text-sm text-white">
         {index + 1}
       </span>
       <div>
-        <h3 className="font-heading text-lg text-[color:var(--color-text-primary)]">{title}</h3>
-        <p className="mt-1 max-w-64 text-sm text-[color:var(--color-text-secondary)] md:mx-auto">
+        <h3 className="font-display text-xl tracking-wide text-[color:var(--color-text-primary)]">
+          {title}
+        </h3>
+        <p className="mt-1 max-w-64 text-sm text-[color:var(--color-text-muted)] md:mx-auto">
           {description}
         </p>
       </div>
@@ -278,19 +228,19 @@ function JourneyConnector() {
   return (
     <span
       aria-hidden="true"
-      className="my-2 h-8 w-px self-center bg-[color:var(--color-brand-accent)]/30 md:my-0 md:mt-5 md:h-px md:w-auto md:flex-1"
+      className="my-2 h-8 w-px self-center bg-[color:var(--color-brand-accent)]/50 md:my-0 md:mt-5 md:h-px md:w-auto md:flex-1"
     />
   )
 }
 
 function JourneySection() {
   return (
-    <section className="bg-[color:var(--color-bg-mid)]/30 px-4 py-16">
+    <section className="border-t border-white/10 bg-[color:var(--color-bg-black)] px-4 py-16">
       <div className="mx-auto max-w-5xl">
         <h2 className="text-center font-heading text-3xl text-[color:var(--color-text-primary)] md:text-4xl">
           The journey we support
         </h2>
-        <p className="mx-auto mt-3 max-w-xl text-center text-[color:var(--color-text-secondary)]">
+        <p className="mx-auto mt-3 max-w-xl text-center text-[color:var(--color-text-muted)]">
           Every venture we back moves through the same four stages.
         </p>
 
@@ -334,7 +284,7 @@ function GalleryTeaserSection() {
   if (!loaded || recent.length === 0) return null
 
   return (
-    <section className="bg-[color:var(--color-bg-base)] px-4 py-16">
+    <section className="border-t border-white/10 bg-[color:var(--color-bg-black)] px-4 py-16">
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           <h2 className="font-heading text-3xl text-[color:var(--color-text-primary)] md:text-4xl">
@@ -358,7 +308,7 @@ function GalleryTeaserSection() {
                   className="w-full rounded-xl object-cover"
                 />
               ) : (
-                <PlaceholderPhoto id={item.id} />
+                <PlaceholderPhoto id={item.id} dark />
               )}
             </div>
           ))}
@@ -399,18 +349,18 @@ function StatBlock({ value, suffix, label }) {
 
   return (
     <div ref={ref} className="text-center">
-      <p className="font-heading text-4xl text-[color:var(--color-glow-accent)] md:text-5xl">
+      <p className="font-heading text-4xl text-[color:var(--color-brand-accent)] md:text-5xl">
         {displayValue}
         {suffix}
       </p>
-      <p className="mt-1 text-sm text-[color:var(--color-text-secondary)]">{label}</p>
+      <p className="mt-1 text-sm text-[color:var(--color-text-muted)]">{label}</p>
     </div>
   )
 }
 
 function StatsSection() {
   return (
-    <section className="bg-[color:var(--color-bg-base)] px-4 py-16">
+    <section className="border-t border-white/10 bg-[color:var(--color-bg-black)] px-4 py-16">
       <div className="mx-auto grid max-w-4xl grid-cols-2 gap-8 md:grid-cols-4">
         {STATS.map((stat) => (
           <StatBlock key={stat.label} {...stat} />
@@ -433,16 +383,16 @@ function BentoCard({ to, title, blurb, Icon }) {
     >
       <Link
         to={to}
-        className="relative flex h-full min-h-56 flex-col justify-between overflow-hidden rounded-2xl border border-[color:var(--color-glow-accent)]/20 bg-gradient-to-br from-[color:var(--color-bg-mid)] to-[color:var(--color-bg-base)] p-6 shadow-[0_0_30px_-10px_rgba(var(--color-glow-accent-rgb),0.25)]"
+        className="relative flex h-full min-h-56 flex-col justify-between overflow-hidden rounded-2xl border border-[color:var(--color-brand-accent)]/30 bg-[color:var(--color-bg-black)] p-6"
       >
         <div
-          className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[color:var(--color-glow-accent)]/10 blur-3xl"
+          className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[color:var(--color-brand-accent)]/10 blur-3xl"
           aria-hidden="true"
         />
-        <Icon className="relative z-10 h-8 w-8 text-[color:var(--color-glow-accent)]" />
+        <Icon className="relative z-10 h-8 w-8 text-[color:var(--color-brand-accent)]" />
         <div className="relative z-10 mt-8">
           <h3 className="font-heading text-xl text-[color:var(--color-text-primary)]">{title}</h3>
-          <p className="mt-2 text-sm text-[color:var(--color-text-secondary)]">{blurb}</p>
+          <p className="mt-2 text-sm text-[color:var(--color-text-muted)]">{blurb}</p>
         </div>
       </Link>
     </motion.div>
@@ -478,7 +428,7 @@ function BentoSection() {
     : "See what we've accomplished."
 
   return (
-    <section className="bg-[color:var(--color-bg-mid)]/30 px-4 py-16">
+    <section className="border-t border-white/10 bg-[color:var(--color-bg-black)] px-4 py-16">
       <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-3">
         <BentoCard to="/events" title="Events" blurb={eventsBlurb} Icon={CalendarIcon} />
         <BentoCard
@@ -500,13 +450,13 @@ function BentoSection() {
 
 function ClosingCtaSection() {
   return (
-    <section className="bg-[color:var(--color-bg-base)] px-4 py-20 text-center">
-      <p className="font-heading text-2xl text-[color:var(--color-text-primary)] md:text-3xl">
+    <section className="border-t border-white/10 bg-[color:var(--color-bg-black)] px-4 py-20 text-center">
+      <p className="font-display text-3xl tracking-wide text-[color:var(--color-text-primary)] md:text-4xl">
         Ideas don't grow alone — let's talk.
       </p>
       <Link
         to="/contact"
-        className="mt-6 inline-block text-[color:var(--color-glow-accent)] hover:underline"
+        className="mt-6 inline-block text-[color:var(--color-brand-accent)] hover:underline"
       >
         Get in touch
       </Link>
