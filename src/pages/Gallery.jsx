@@ -2,16 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { getGallery } from '../lib/queries.js'
 import { usePrefersReducedMotion } from '../lib/use-prefers-reduced-motion.js'
-
-function PhotoIcon(props) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" {...props}>
-      <rect x="3" y="4" width="18" height="16" rx="2" />
-      <circle cx="8.5" cy="9.5" r="1.5" />
-      <path d="M21 16l-5.5-5.5a2 2 0 0 0-2.8 0L3 20" />
-    </svg>
-  )
-}
+import PlaceholderPhoto, { PhotoIcon } from '../components/PlaceholderPhoto.jsx'
 
 function CloseIcon(props) {
   return (
@@ -19,35 +10,6 @@ function CloseIcon(props) {
       <line x1="5" y1="5" x2="19" y2="19" />
       <line x1="19" y1="5" x2="5" y2="19" />
     </svg>
-  )
-}
-
-// No real images yet (image_url is null in seed data), so each thumbnail
-// gets a stylized placeholder. Aspect ratio is derived deterministically
-// from the item's id so the masonry columns show varied heights instead
-// of a uniform grid, without random layout shift on re-render.
-const ASPECT_RATIOS = ['aspect-[3/4]', 'aspect-square', 'aspect-[4/5]', 'aspect-[16/11]', 'aspect-[2/3]']
-
-function hashToIndex(value, length) {
-  let hash = 0
-  for (let i = 0; i < value.length; i++) {
-    hash = (hash * 31 + value.charCodeAt(i)) >>> 0
-  }
-  return hash % length
-}
-
-function PlaceholderPhoto({ id, className = '' }) {
-  const aspectClass = ASPECT_RATIOS[hashToIndex(id, ASPECT_RATIOS.length)]
-  return (
-    <div
-      className={`relative flex w-full items-center justify-center overflow-hidden rounded-xl border border-[color:var(--color-glow-accent)]/20 bg-gradient-to-br from-[color:var(--color-bg-mid)] to-[color:var(--color-bg-base)] ${aspectClass} ${className}`}
-    >
-      <div
-        className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[color:var(--color-glow-accent)]/10 blur-3xl"
-        aria-hidden="true"
-      />
-      <PhotoIcon className="relative z-10 h-8 w-8 text-[color:var(--color-glow-accent)]" />
-    </div>
   )
 }
 

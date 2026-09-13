@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useInView } from 'framer-motion'
-import { getAchievements, getEvents } from '../lib/queries.js'
+import { getAchievements, getEvents, getGallery } from '../lib/queries.js'
 import { usePrefersReducedMotion } from '../lib/use-prefers-reduced-motion.js'
 import Starfield from '../components/Starfield.jsx'
 import GlowOrb from '../components/GlowOrb.jsx'
+import PlaceholderPhoto from '../components/PlaceholderPhoto.jsx'
 
 // PLACEHOLDER STATS — replace with real figures before launch
 const STATS = [
@@ -209,6 +210,164 @@ function HeroSection() {
   )
 }
 
+// 2-3 sentences distilled from About.jsx's "Our Story" copy (mission,
+// origin/growth, current purpose) — a summary of the real text, not new
+// placeholder copy that could drift from or contradict it.
+function AboutPreviewSection() {
+  return (
+    <section className="bg-[color:var(--color-bg-base)] px-4 py-16">
+      <div className="mx-auto max-w-2xl text-center">
+        <p className="text-base text-[color:var(--color-text-secondary)] md:text-lg">
+          An entrepreneurship cell exists to make starting something feel less like a leap and
+          more like a next step — pairing curious students with the people, frameworks, and
+          community it takes to test an idea for real. What started as informal late-night
+          conversations has grown into a cell running workshops, guest talks, and competitions
+          year-round, all in service of one goal: lowering the barrier between having an idea and
+          doing something about it.
+        </p>
+        <Link
+          to="/about"
+          className="mt-4 inline-block text-[color:var(--color-brand-accent)] hover:underline"
+        >
+          Read our story →
+        </Link>
+      </div>
+    </section>
+  )
+}
+
+// A genuine sequence (unlike the Bento grid's non-ordered feature set), so
+// a numbered progression with a connecting line is earned here. Crimson,
+// not the violet glow accent — that stays reserved for the constellation.
+const JOURNEY_STAGES = [
+  {
+    title: 'Ideate',
+    description: 'Turn a raw observation or frustration into a concrete idea worth testing.',
+  },
+  {
+    title: 'Validate',
+    description: 'Talk to real users and stress-test assumptions before building anything more.',
+  },
+  {
+    title: 'Pitch',
+    description: 'Sharpen the idea into a story you can tell in five minutes to a room of strangers.',
+  },
+  {
+    title: 'Launch',
+    description: 'Ship something real, and start the whole loop again with a live product.',
+  },
+]
+
+function JourneyStage({ index, title, description }) {
+  return (
+    <div className="flex flex-col items-center gap-3 text-center md:flex-1">
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[color:var(--color-brand-accent)] font-heading text-sm text-[color:var(--color-brand-accent)]">
+        {index + 1}
+      </span>
+      <div>
+        <h3 className="font-heading text-lg text-[color:var(--color-text-primary)]">{title}</h3>
+        <p className="mt-1 max-w-64 text-sm text-[color:var(--color-text-secondary)] md:mx-auto">
+          {description}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function JourneyConnector() {
+  return (
+    <span
+      aria-hidden="true"
+      className="my-2 h-8 w-px self-center bg-[color:var(--color-brand-accent)]/30 md:my-0 md:mt-5 md:h-px md:w-auto md:flex-1"
+    />
+  )
+}
+
+function JourneySection() {
+  return (
+    <section className="bg-[color:var(--color-bg-mid)]/30 px-4 py-16">
+      <div className="mx-auto max-w-5xl">
+        <h2 className="text-center font-heading text-3xl text-[color:var(--color-text-primary)] md:text-4xl">
+          The journey we support
+        </h2>
+        <p className="mx-auto mt-3 max-w-xl text-center text-[color:var(--color-text-secondary)]">
+          Every venture we back moves through the same four stages.
+        </p>
+
+        <div className="mt-12 flex flex-col md:flex-row md:items-start">
+          {JOURNEY_STAGES.map((stage, index) => (
+            <Fragment key={stage.title}>
+              <JourneyStage index={index} {...stage} />
+              {index < JOURNEY_STAGES.length - 1 && <JourneyConnector />}
+            </Fragment>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function GalleryTeaserSection() {
+  const [items, setItems] = useState([])
+  const [loaded, setLoaded] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+
+    getGallery().then(({ data, error }) => {
+      if (cancelled) return
+      if (!error) setItems(data ?? [])
+      setLoaded(true)
+    })
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const recent = [...items]
+    .sort((a, b) => new Date(b.uploaded_at).getTime() - new Date(a.uploaded_at).getTime())
+    .slice(0, 4)
+
+  // Nothing to show yet (still loading) or nothing to show at all (zero
+  // rows) — omit the section entirely rather than rendering it empty.
+  if (!loaded || recent.length === 0) return null
+
+  return (
+    <section className="bg-[color:var(--color-bg-base)] px-4 py-16">
+      <div className="mx-auto max-w-5xl">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+          <h2 className="font-heading text-3xl text-[color:var(--color-text-primary)] md:text-4xl">
+            From the gallery
+          </h2>
+          <Link
+            to="/gallery"
+            className="whitespace-nowrap text-[color:var(--color-brand-accent)] hover:underline"
+          >
+            Explore the gallery →
+          </Link>
+        </div>
+
+        <div className="mt-8 columns-2 gap-4 sm:columns-4">
+          {recent.map((item) => (
+            <div key={item.id} className="mb-4 break-inside-avoid">
+              {item.image_url ? (
+                <img
+                  src={item.image_url}
+                  alt={item.caption ?? ''}
+                  className="w-full rounded-xl object-cover"
+                />
+              ) : (
+                <PlaceholderPhoto id={item.id} />
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function useCountUp(target, { active, duration = 1.2 }) {
   const [value, setValue] = useState(0)
 
@@ -359,8 +518,11 @@ function Home() {
   return (
     <main>
       <HeroSection />
-      <StatsSection />
+      <AboutPreviewSection />
+      <JourneySection />
       <BentoSection />
+      <GalleryTeaserSection />
+      <StatsSection />
       <ClosingCtaSection />
     </main>
   )
