@@ -43,6 +43,26 @@ function RocketIcon(props) {
   )
 }
 
+// Same three paragraphs as before, unchanged word-for-word — just moved
+// into data so the timeline below can map over them. Labels reflect what
+// each paragraph actually says: the first is the founding belief/premise
+// (not itself a point in time), the second is the literal origin-and-growth
+// narrative ("started as... grown into"), the third is explicitly "Today".
+const STORY_STAGES = [
+  {
+    label: 'Why',
+    text: "An entrepreneurship cell exists to do one thing: make starting something feel less like a leap and more like a next step. We believe every student carries the seed of an idea worth building — what's usually missing isn't ambition, it's exposure to the right people, the right frameworks, and a room full of others asking the same questions.",
+  },
+  {
+    label: 'How',
+    text: "ISL E-cell started as a small group of students who kept ending up in the same late-night conversations about half-formed startup ideas, and decided those conversations deserved a proper home. What began as informal meetups has grown into a full-fledged cell running workshops, guest talks, and competitions year-round — but the spirit hasn't changed: curious people, comparing notes, building things.",
+  },
+  {
+    label: 'Now',
+    text: 'Today, we exist to lower the barrier between "I have an idea" and "I did something about it" — through mentorship, hands-on sessions, and a community that treats failure as data, not a verdict. Whether you\'re validating your first idea or your fifth, this is a place to test it out loud.',
+  },
+]
+
 // Category labels match the events.category enum exactly (see
 // .claude/rules/data-layer.md) — each links to /events?category=<value>,
 // which pre-selects the matching filter chip there.
@@ -86,16 +106,16 @@ function CategoryCard({ category, description, Icon }) {
     >
       <Link
         to={`/events?category=${encodeURIComponent(category)}`}
-        className="relative flex h-full min-h-56 flex-col justify-between overflow-hidden rounded-2xl border border-[color:var(--color-glow-accent)]/20 bg-gradient-to-br from-[color:var(--color-bg-mid)] to-[color:var(--color-bg-base)] p-6 shadow-[0_0_30px_-10px_rgba(var(--color-glow-accent-rgb),0.25)]"
+        className="relative flex h-full min-h-56 flex-col justify-between overflow-hidden rounded-2xl border border-[color:var(--color-brand-accent)]/30 bg-[color:var(--color-bg-black)] p-6"
       >
         <div
-          className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[color:var(--color-glow-accent)]/10 blur-3xl"
+          className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[color:var(--color-brand-accent)]/10 blur-3xl"
           aria-hidden="true"
         />
-        <Icon className="relative z-10 h-8 w-8 text-[color:var(--color-glow-accent)]" />
+        <Icon className="relative z-10 h-8 w-8 text-[color:var(--color-brand-accent)]" />
         <div className="relative z-10 mt-8">
           <h3 className="font-heading text-xl text-[color:var(--color-text-primary)]">{category}</h3>
-          <p className="mt-2 text-sm text-[color:var(--color-text-secondary)]">{description}</p>
+          <p className="mt-2 text-sm text-[color:var(--color-text-muted)]">{description}</p>
         </div>
       </Link>
     </motion.div>
@@ -104,40 +124,40 @@ function CategoryCard({ category, description, Icon }) {
 
 function About() {
   return (
-    <main className="bg-[color:var(--color-bg-base)]">
+    <main className="bg-[color:var(--color-bg-black)]">
       <section className="mx-auto max-w-3xl px-4 py-20">
-        <h1 className="font-heading text-4xl text-[color:var(--color-text-primary)] md:text-5xl">
+        <h1 className="font-display text-5xl tracking-wide text-[color:var(--color-text-primary)] md:text-6xl">
           Our Story
         </h1>
-        <div className="mt-6 space-y-5 text-[color:var(--color-text-secondary)]">
-          <p>
-            An entrepreneurship cell exists to do one thing: make starting something feel less like
-            a leap and more like a next step. We believe every student carries the seed of an idea
-            worth building — what's usually missing isn't ambition, it's exposure to the right
-            people, the right frameworks, and a room full of others asking the same questions.
-          </p>
-          <p>
-            ISL E-cell started as a small group of students who kept ending up in the same
-            late-night conversations about half-formed startup ideas, and decided those
-            conversations deserved a proper home. What began as informal meetups has grown into a
-            full-fledged cell running workshops, guest talks, and competitions year-round — but the
-            spirit hasn't changed: curious people, comparing notes, building things.
-          </p>
-          <p>
-            Today, we exist to lower the barrier between "I have an idea" and "I did something
-            about it" — through mentorship, hands-on sessions, and a community that treats failure
-            as data, not a verdict. Whether you're validating your first idea or your fifth, this is
-            a place to test it out loud.
-          </p>
+
+        <div className="relative mt-12">
+          <div
+            aria-hidden="true"
+            className="absolute top-2 bottom-2 left-3 w-px bg-[color:var(--color-brand-accent)]/30"
+          />
+          <div className="space-y-10">
+            {STORY_STAGES.map((stage) => (
+              <div key={stage.label} className="relative pl-10">
+                <span
+                  aria-hidden="true"
+                  className="absolute top-1 left-0 h-6 w-6 rounded-full bg-[color:var(--color-brand-accent)] ring-4 ring-[color:var(--color-bg-black)]"
+                />
+                <p className="font-display text-sm tracking-widest text-[color:var(--color-brand-accent)] uppercase">
+                  {stage.label}
+                </p>
+                <p className="mt-2 text-[color:var(--color-text-muted)]">{stage.text}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="bg-[color:var(--color-bg-mid)]/30 px-4 py-20">
+      <section className="border-t border-white/10 bg-[color:var(--color-bg-black)] px-4 py-20">
         <div className="mx-auto max-w-5xl">
-          <h2 className="text-center font-heading text-3xl text-[color:var(--color-text-primary)] md:text-4xl">
+          <h2 className="text-center font-display text-3xl tracking-wide text-[color:var(--color-text-primary)] md:text-4xl">
             What We Do
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-center text-[color:var(--color-text-secondary)]">
+          <p className="mx-auto mt-3 max-w-xl text-center text-[color:var(--color-text-muted)]">
             Everything we run falls into one of four categories.
           </p>
 
