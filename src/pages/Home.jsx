@@ -91,33 +91,61 @@ function HeroCta() {
   )
 }
 
-// Hero's right-side element, replacing the old violet node-cluster (that
-// treatment is now Team-exclusive). Chose a large stylized version of the
-// logo mark over a fresh abstract graphic: it's already the site's actual
-// brand shape, so blowing it up here reinforces identity rather than
-// introducing a new decorative motif. Uses the source PNG purely as a CSS
-// mask (its alpha channel becomes the stencil), filled with solid red —
-// mask-based recoloring is exact, unlike chaining brightness/hue-rotate
-// filters to fake a color shift on a navy source image. Solid fill, no
-// blur/glow, no animation — flat and static, matching the rest of this
-// identity, and deliberately not reusing the orb pulse the Team page uses.
-function HeroMark() {
+// ---------------------------------------------------------------------
+// Hero background photo. No real event/team photo exists yet — once one
+// does, import it and set it here (one line):
+//
+//   import heroPhoto from '../assets/hero-photo.jpg'
+//   const HERO_PHOTO = heroPhoto
+//
+// HeroBackground below renders it full-bleed via object-cover as soon as
+// this is non-null. Nothing else needs to change: the dark overlay, the
+// text, and the layout all already assume a full-bleed background.
+// ---------------------------------------------------------------------
+const HERO_PHOTO = null
+
+function HeroBackground({ photo }) {
   return (
-    <div
-      aria-hidden="true"
-      className="mx-auto h-56 w-56 md:h-72 md:w-72"
-      style={{
-        backgroundColor: 'var(--color-brand-accent)',
-        WebkitMaskImage: `url(${logoMark})`,
-        maskImage: `url(${logoMark})`,
-        WebkitMaskSize: 'contain',
-        maskSize: 'contain',
-        WebkitMaskRepeat: 'no-repeat',
-        maskRepeat: 'no-repeat',
-        WebkitMaskPosition: 'center',
-        maskPosition: 'center',
-      }}
-    />
+    <div className="absolute inset-0 overflow-hidden">
+      {photo ? (
+        <img src={photo} alt="" className="h-full w-full object-cover" />
+      ) : (
+        // Stylized placeholder for when there's no photo yet: a dark
+        // red/black gradient plus a faint, oversized logo-mark watermark
+        // bleeding off the right edge. Deliberately looks designed, not
+        // like a missing image.
+        <div className="relative h-full w-full bg-[color:var(--color-bg-black)]">
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'radial-gradient(120% 90% at 78% 25%, rgba(179,30,45,0.22), transparent 60%), linear-gradient(180deg, #0f0f0f 0%, #050505 100%)',
+            }}
+          />
+          <div
+            aria-hidden="true"
+            className="absolute top-1/2 -right-16 h-[130%] w-[65%] -translate-y-1/2 opacity-[0.08] md:right-0 md:w-[45%]"
+            style={{
+              backgroundColor: '#ffffff',
+              WebkitMaskImage: `url(${logoMark})`,
+              maskImage: `url(${logoMark})`,
+              WebkitMaskSize: 'contain',
+              maskSize: 'contain',
+              WebkitMaskRepeat: 'no-repeat',
+              maskRepeat: 'no-repeat',
+              WebkitMaskPosition: 'center',
+              maskPosition: 'center',
+            }}
+          />
+        </div>
+      )}
+
+      {/* Legibility overlay for text sitting on top — stronger toward the
+          bottom where the text block sits. Keep this once a real photo
+          replaces the placeholder above; it's what keeps the headline
+          readable over any busy image. */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/55 to-black/35" />
+    </div>
   )
 }
 
@@ -125,35 +153,31 @@ function HeroSection() {
   const prefersReducedMotion = usePrefersReducedMotion()
 
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden bg-[color:var(--color-bg-black)] px-4 py-24">
-      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-12 md:flex-row md:items-center md:justify-between md:gap-8">
-        <motion.div
-          variants={heroContainerVariants}
-          initial={prefersReducedMotion ? 'show' : 'hidden'}
-          animate="show"
-          className="flex max-w-xl flex-col items-center gap-6 text-center md:w-[58%] md:max-w-none md:items-start md:text-left"
+    <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-24 text-center">
+      <HeroBackground photo={HERO_PHOTO} />
+
+      <motion.div
+        variants={heroContainerVariants}
+        initial={prefersReducedMotion ? 'show' : 'hidden'}
+        animate="show"
+        className="relative z-10 flex max-w-2xl flex-col items-center gap-6"
+      >
+        <motion.h1
+          variants={heroItemVariants}
+          className="font-display text-6xl tracking-wide text-[color:var(--color-text-primary)] md:text-8xl"
         >
-          <motion.h1
-            variants={heroItemVariants}
-            className="font-display text-6xl tracking-wide text-[color:var(--color-text-primary)] md:text-8xl"
-          >
-            Visionary Questers
-          </motion.h1>
+          Visionary Questers
+        </motion.h1>
 
-          <motion.p
-            variants={heroItemVariants}
-            className="max-w-xl text-base text-[color:var(--color-text-muted)] md:text-lg"
-          >
-            The Entrepreneurship Cell of ISL — turning curiosity into ventures, one idea at a time.
-          </motion.p>
+        <motion.p
+          variants={heroItemVariants}
+          className="max-w-xl text-base text-[color:var(--color-text-muted)] md:text-lg"
+        >
+          The Entrepreneurship Cell of ISL — turning curiosity into ventures, one idea at a time.
+        </motion.p>
 
-          <HeroCta />
-        </motion.div>
-
-        <div className="hidden md:block md:w-[36%]">
-          <HeroMark />
-        </div>
-      </div>
+        <HeroCta />
+      </motion.div>
     </section>
   )
 }
