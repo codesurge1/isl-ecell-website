@@ -6,24 +6,45 @@ alwaysApply: false
 
 # Design system
 
-## Color palette (locked)
+## Color palette (current identity)
+
+| Role | Hex |
+|---|---|
+| Base black | #0A0A0A |
+| Red (primary accent — used boldly and often: active states, headlines, CTAs, section markers) | #B31E2D |
+| Primary text | #FFFFFF |
+| Muted/secondary text | #8A8A8A |
+| Glow accent (Team constellation only — never elsewhere) | #9D7FE8 |
+
+Do not introduce new colors outside this palette without updating this file
+first.
+
+### Legacy palette (pages pending redesign)
+
+Not-yet-redesigned pages still use the older navy/cosmic palette below.
+Migrate a page off this list as part of its own redesign pass — don't mix
+old and new tokens within the same component.
 
 | Role | Hex |
 |---|---|
 | Background base | #05070D |
 | Background mid (navy) | #0E1B33 |
-| Primary text | #FFFFFF |
 | Secondary text | #C6D0E0 |
-| Brand accent (CTAs, active states) | #B31E2D |
-| Glow accent (constellation only) | #9D7FE8 |
-
-Do not introduce new colors outside this palette without updating this file
-first.
 
 ## Typography
 
-- Headings: Space Grotesk.
-- Body: Inter.
+- Display/headlines: Anton — bold, condensed, high-impact, but only at
+  actual display sizes (tested: reads great at 32px+). At small UI sizes
+  like an 18px nav wordmark its mixed-case letterforms compress and read
+  cramped rather than bold — verified by rendering the real font, not
+  guessed from a screenshot where the webfont had silently failed to load.
+  Reserved for page headlines as pages are redesigned; not used in the
+  Navbar/Footer wordmark for this reason.
+- Body/UI: Inter. Nav links stay Inter at regular weight; the Navbar/
+  Footer wordmark uses Inter at font-bold (700) rather than Anton, for the
+  small-size legibility reason above.
+- Legacy heading font (Space Grotesk) still applies to not-yet-redesigned
+  page headings — migrate to Anton as part of each page's redesign pass.
 - Sizes and weights are left flexible for now — will be refined in Phase 1.
   Don't hardcode a final type scale yet.
 

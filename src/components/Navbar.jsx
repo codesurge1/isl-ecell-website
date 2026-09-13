@@ -15,19 +15,22 @@ const LINKS = [
   { to: '/contact', label: 'Contact' },
 ]
 
+// Active state is a solid red pill, not just an underline/color change —
+// hover on inactive links stays a plain text-color shift so it never
+// competes with the active pill's boldness.
 function desktopLinkClass({ isActive }) {
-  return `border-b-2 pb-1 text-sm tracking-wide transition-colors ${
+  return `rounded-full px-4 py-1.5 text-sm tracking-wide transition-colors ${
     isActive
-      ? 'border-[color:var(--color-brand-accent)] text-[color:var(--color-brand-accent)]'
-      : 'border-transparent text-[color:var(--color-text-secondary)] hover:text-[color:var(--color-text-primary)]'
+      ? 'bg-[color:var(--color-brand-accent)] text-white'
+      : 'text-[color:var(--color-text-muted)] hover:text-white'
   }`
 }
 
 function mobileLinkClass({ isActive }) {
-  return `rounded-md px-3 py-3 text-lg transition-colors ${
+  return `rounded-full px-6 py-3 text-lg transition-colors ${
     isActive
-      ? 'text-[color:var(--color-brand-accent)]'
-      : 'text-[color:var(--color-text-secondary)] hover:text-[color:var(--color-text-primary)]'
+      ? 'bg-[color:var(--color-brand-accent)] text-white'
+      : 'text-[color:var(--color-text-muted)] hover:text-white'
   }`
 }
 
@@ -76,22 +79,17 @@ function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-colors duration-300 ${
-        scrolled
-          ? 'border-b border-white/5 bg-[color:var(--color-bg-base)]/85 shadow-lg shadow-black/20 backdrop-blur-md'
-          : 'border-b border-transparent bg-transparent'
+      className={`sticky top-0 z-50 border-b border-white/10 bg-[color:var(--color-bg-black)] transition-shadow duration-300 ${
+        scrolled ? 'shadow-lg shadow-black/40' : ''
       }`}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Link
-          to="/"
-          className="flex items-center gap-2 font-heading text-lg text-[color:var(--color-text-primary)] transition-colors hover:text-[color:var(--color-glow-accent)]"
-        >
+        <Link to="/" className="flex items-center gap-2 text-lg text-white transition-colors hover:text-[color:var(--color-brand-accent)]">
           <img src={logoMark} alt="" className="h-8 w-auto" />
-          ISL E-cell
+          <span className="font-bold tracking-wide">ISL E-cell</span>
         </Link>
 
-        <nav className="hidden items-center gap-6 md:flex">
+        <nav className="hidden items-center gap-2 md:flex">
           {LINKS.map((link) => (
             <NavLink key={link.to} to={link.to} end={link.end} className={desktopLinkClass}>
               {link.label}
@@ -104,7 +102,7 @@ function Navbar() {
           onClick={() => setMobileOpen((value) => !value)}
           aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={mobileOpen}
-          className="text-[color:var(--color-text-primary)] md:hidden"
+          className="text-white md:hidden"
         >
           {mobileOpen ? <CloseIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
         </button>
@@ -117,7 +115,7 @@ function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
-            className="fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col items-center justify-center gap-2 bg-[color:var(--color-bg-base)]/98 backdrop-blur-md md:hidden"
+            className="fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col items-center justify-center gap-2 bg-[color:var(--color-bg-black)] md:hidden"
           >
             {LINKS.map((link) => (
               <NavLink key={link.to} to={link.to} end={link.end} className={mobileLinkClass}>
