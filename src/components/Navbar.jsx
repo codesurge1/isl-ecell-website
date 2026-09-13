@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useScrolled } from '../lib/use-scrolled.js'
 import { usePrefersReducedMotion } from '../lib/use-prefers-reduced-motion.js'
+import logoMark from '../assets/logo-mark.png'
 
 const LINKS = [
   { to: '/', label: 'Home', end: true },
@@ -84,8 +85,9 @@ function Navbar() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <Link
           to="/"
-          className="font-heading text-lg text-[color:var(--color-text-primary)] transition-colors hover:text-[color:var(--color-glow-accent)]"
+          className="flex items-center gap-2 font-heading text-lg text-[color:var(--color-text-primary)] transition-colors hover:text-[color:var(--color-glow-accent)]"
         >
+          <img src={logoMark} alt="" className="h-8 w-auto" />
           ISL E-cell
         </Link>
 
