@@ -72,12 +72,12 @@ function MemberProfile() {
 
         {!loading && !error && member && (
           <div className="flex flex-col items-center text-center">
-            <span className="flex h-40 w-40 items-center justify-center overflow-hidden rounded-full border border-[color:var(--color-glow-accent)]/80 bg-[color:var(--color-bg-mid)] shadow-[0_0_14px_2px_rgba(var(--color-glow-accent-rgb),0.7),0_0_34px_8px_rgba(var(--color-glow-accent-rgb),0.4),0_0_64px_16px_rgba(var(--color-glow-accent-rgb),0.18)]">
+            <span className="flex h-[148px] w-[105px] items-center justify-center overflow-hidden rounded-lg border border-[color:var(--color-glow-accent)]/80 bg-[color:var(--color-bg-mid)] shadow-[0_0_14px_2px_rgba(var(--color-glow-accent-rgb),0.7),0_0_34px_8px_rgba(var(--color-glow-accent-rgb),0.4),0_0_64px_16px_rgba(var(--color-glow-accent-rgb),0.18)]">
               {member.photo_url ? (
                 <img
                   src={member.photo_url}
                   alt={member.name}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-contain"
                 />
               ) : (
                 <span className="font-heading text-3xl text-[color:var(--color-text-secondary)]">

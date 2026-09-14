@@ -13,12 +13,10 @@ function hashToUnit(value) {
   return (hash % 1000) / 1000
 }
 
-// Shared glowing-orb visual primitive: a circle whose glow is 2-3 stacked
-// box-shadows (tight+bright to wide+soft) so it reads as a light source
-// rather than an outlined circle, plus a slow ambient brightness pulse.
-// Used by the Team constellation (MemberOrb) and the Home hero's
-// decorative node-cluster illustration, so both share one glow
-// implementation instead of duplicating the shadow/pulse CSS.
+// Shared glowing-frame visual primitive: a portrait rectangle whose glow is
+// 2-3 stacked box-shadows (tight+bright to wide+soft) so it reads as a
+// light source rather than an outlined shape, plus a slow ambient
+// brightness pulse. Used by the Team constellation (MemberOrb).
 function GlowOrb({
   wrapperClassName,
   ringClassName,
@@ -43,7 +41,7 @@ function GlowOrb({
       animate={glowAnimation}
       transition={glowTransition}
       whileHover={hoverAnimation}
-      className={`flex items-center justify-center overflow-hidden rounded-full bg-[color:var(--color-bg-mid)] ${wrapperClassName} ${ringClassName} ${className}`}
+      className={`flex items-center justify-center overflow-hidden rounded-lg bg-[color:var(--color-bg-mid)] ${wrapperClassName} ${ringClassName} ${className}`}
     >
       {children}
     </motion.span>

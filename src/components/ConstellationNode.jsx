@@ -27,7 +27,11 @@ function CollapsedClusterNode({ count, onExpand }) {
 function ConstellationNode({ member, tier }) {
   const [expanded, setExpanded] = useState(false)
   const children = member.children ?? []
-  const isCollapsed = children.length > MAX_VISIBLE_CHILDREN && !expanded
+  // The root's own direct reports are the named leadership team (VP,
+  // General Secretary, domain heads) — never collapse those regardless of
+  // count. Deeper tiers (volunteers under a domain head) still collapse
+  // past MAX_VISIBLE_CHILDREN.
+  const isCollapsed = tier !== 0 && children.length > MAX_VISIBLE_CHILDREN && !expanded
 
   return (
     <div className="flex flex-col items-center">
@@ -36,7 +40,7 @@ function ConstellationNode({ member, tier }) {
       {children.length > 0 && (
         <>
           <ConnectorLine className="h-6" />
-          <div className="relative flex justify-center gap-10 before:absolute before:left-[8%] before:right-[8%] before:top-0 before:border-t before:border-[color:var(--color-glow-accent)]/40 before:shadow-[0_0_6px_1px_rgba(var(--color-glow-accent-rgb),0.35)]">
+          <div className="relative flex flex-wrap justify-center gap-x-14 gap-y-10 before:absolute before:left-[8%] before:right-[8%] before:top-0 before:border-t before:border-[color:var(--color-glow-accent)]/40 before:shadow-[0_0_6px_1px_rgba(var(--color-glow-accent-rgb),0.35)]">
             {isCollapsed ? (
               <div className="flex flex-col items-center">
                 <ConnectorLine className="h-6" />
