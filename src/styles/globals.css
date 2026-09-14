@@ -17,7 +17,13 @@
   /* Shared across both palettes */
   --color-text-primary: #ffffff;
   --color-brand-accent: #b31e2d;
-  --color-glow-accent: #9d7fe8; /* Team constellation only */
+  /* Site-wide glow/shadow accent — same red as --color-brand-accent above,
+     kept as its own token because the layered rgba() box-shadow glow
+     technique (Team constellation orbs/connectors) needs the RGB triplet
+     below. Previously a dedicated violet (#9D7FE8) reserved for Team only;
+     that carve-out is retired, so this is now just red applied via glow
+     shadows rather than a solid fill. */
+  --color-glow-accent: #b31e2d;
 
   --font-body: 'Inter', sans-serif;
 }
@@ -28,7 +34,7 @@
      argument directly. Kept outside @theme so Tailwind doesn't treat this
      non-color value as a color-utility source. Keep in sync by hand if
      --color-glow-accent above ever changes. */
-  --color-glow-accent-rgb: 157, 127, 232;
+  --color-glow-accent-rgb: 179, 30, 45;
 }
 
 /* Base element defaults belong in Tailwind's base layer, not the plain

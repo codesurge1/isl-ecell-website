@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getMembers } from '../lib/queries.js'
 import { buildMemberTree } from '../lib/buildMemberTree.js'
-import Starfield from '../components/Starfield.jsx'
 import ConstellationNode from '../components/ConstellationNode.jsx'
 import MobileTeamAccordion from '../components/MobileTeamAccordion.jsx'
 import PageTransition from '../components/PageTransition.jsx'
@@ -32,38 +31,36 @@ function Team() {
   const roots = buildMemberTree(members)
 
   return (
-    <PageTransition className="relative min-h-screen bg-gradient-to-b from-[color:var(--color-bg-base)] to-[color:var(--color-bg-mid)] px-4 py-16">
-      <Starfield />
+    <PageTransition className="relative min-h-screen bg-[color:var(--color-bg-black)] px-4 py-16">
+      <h1 className="mb-12 text-center font-display text-5xl tracking-wide text-[color:var(--color-text-primary)] md:text-6xl">
+        Team
+      </h1>
 
-      <div className="relative z-10">
-        <h1 className="mb-12 text-center text-3xl text-[color:var(--color-text-primary)]">Team</h1>
+      {loading && (
+        <p className="text-center text-[color:var(--color-text-muted)]">Loading team…</p>
+      )}
 
-        {loading && (
-          <p className="text-center text-[color:var(--color-text-secondary)]">Loading team…</p>
-        )}
+      {error && (
+        <p className="text-center text-[color:var(--color-text-muted)]">
+          Couldn't load the team right now. Please try again later.
+        </p>
+      )}
 
-        {error && (
-          <p className="text-center text-[color:var(--color-text-secondary)]">
-            Couldn't load the team right now. Please try again later.
-          </p>
-        )}
+      {!loading && !error && (
+        <>
+          {/* Desktop constellation — hidden below Tailwind's md breakpoint */}
+          <div className="hidden md:flex md:flex-wrap md:justify-center md:gap-16">
+            {roots.map((root) => (
+              <ConstellationNode key={root.id} member={root} tier={0} />
+            ))}
+          </div>
 
-        {!loading && !error && (
-          <>
-            {/* Desktop constellation — hidden below Tailwind's md breakpoint */}
-            <div className="hidden md:flex md:flex-wrap md:justify-center md:gap-16">
-              {roots.map((root) => (
-                <ConstellationNode key={root.id} member={root} tier={0} />
-              ))}
-            </div>
-
-            {/* Mobile fallback — vertical accordion below md */}
-            <div className="md:hidden">
-              <MobileTeamAccordion roots={roots} />
-            </div>
-          </>
-        )}
-      </div>
+          {/* Mobile fallback — vertical accordion below md */}
+          <div className="md:hidden">
+            <MobileTeamAccordion roots={roots} />
+          </div>
+        </>
+      )}
     </PageTransition>
   )
 }

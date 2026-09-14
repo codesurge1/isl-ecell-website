@@ -14,7 +14,15 @@ alwaysApply: false
 | Red (primary accent — used boldly and often: active states, headlines, CTAs, section markers) | #B31E2D |
 | Primary text | #FFFFFF |
 | Muted/secondary text | #8A8A8A |
-| Glow accent (Team constellation only — never elsewhere) | #9D7FE8 |
+
+Red is also the site's single glow/accent color, including the Team
+constellation's orb glow and connector-line effects — see
+`--color-glow-accent` / `--color-glow-accent-rgb` in `src/styles/
+globals.css`, which supply the same red as a layered rgba() box-shadow
+(real light-emission via 2-3 stacked shadows, not a flat colored ring)
+rather than a solid fill. This used to be a dedicated violet (#9D7FE8)
+reserved exclusively for Team; that carve-out is retired as of Team's own
+redesign, so violet should not appear anywhere in the codebase.
 
 Do not introduce new colors outside this palette without updating this file
 first.

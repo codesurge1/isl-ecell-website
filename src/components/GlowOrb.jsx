@@ -41,7 +41,7 @@ function GlowOrb({
       animate={glowAnimation}
       transition={glowTransition}
       whileHover={hoverAnimation}
-      className={`flex items-center justify-center overflow-hidden rounded-lg bg-[color:var(--color-bg-mid)] ${wrapperClassName} ${ringClassName} ${className}`}
+      className={`flex items-center justify-center overflow-hidden rounded-lg bg-[color:var(--color-bg-black)] ${wrapperClassName} ${ringClassName} ${className}`}
     >
       {children}
     </motion.span>

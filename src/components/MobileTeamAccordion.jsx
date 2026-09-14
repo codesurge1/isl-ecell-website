@@ -15,18 +15,18 @@ function getInitials(name) {
 }
 
 // Same 105x148 portrait-rectangle treatment as MemberOrb/MemberProfile,
-// scaled down to fit a compact accordion row: navy fill behind the photo
-// and object-contain so a transparent PNG cutout letterboxes cleanly
+// scaled down to fit a compact accordion row: solid black fill behind the
+// photo and object-contain so a transparent PNG cutout letterboxes cleanly
 // instead of being cropped or leaving empty corners.
 function Avatar({ member, className = '' }) {
   return (
     <span
-      className={`flex shrink-0 items-center justify-center overflow-hidden rounded-md border border-[color:var(--color-glow-accent)]/40 bg-[color:var(--color-bg-mid)] ${className}`}
+      className={`flex shrink-0 items-center justify-center overflow-hidden rounded-md border border-[color:var(--color-glow-accent)]/40 bg-[color:var(--color-bg-black)] ${className}`}
     >
       {member.photo_url ? (
         <img src={member.photo_url} alt={member.name} className="h-full w-full object-contain" />
       ) : (
-        <span className="font-heading text-[color:var(--color-text-secondary)]">
+        <span className="font-heading text-[color:var(--color-text-muted)]">
           {getInitials(member.name)}
         </span>
       )}
@@ -57,14 +57,14 @@ function RootCard({ member }) {
     <button
       type="button"
       onClick={() => navigate(`/team/${member.id}`)}
-      className="flex w-full items-center gap-4 rounded-xl border border-[color:var(--color-glow-accent)]/50 bg-[color:var(--color-bg-mid)]/70 p-4 text-left"
+      className="flex w-full items-center gap-4 rounded-xl border border-[color:var(--color-glow-accent)]/50 bg-[color:var(--color-bg-black)]/70 p-4 text-left"
     >
       <Avatar member={member} className="h-[68px] w-[48px] text-lg" />
       <span>
         <span className="block font-heading text-lg text-[color:var(--color-text-primary)]">
           {member.name}
         </span>
-        <span className="block text-sm text-[color:var(--color-text-secondary)]">
+        <span className="block text-sm text-[color:var(--color-text-muted)]">
           {[member.role, member.domain].filter(Boolean).join(' · ')}
         </span>
       </span>
@@ -83,7 +83,7 @@ function MemberRow({ member, depth }) {
 
   return (
     <div style={{ paddingLeft: depth * 16 }}>
-      <div className="flex items-center gap-2 rounded-lg border border-[color:var(--color-glow-accent)]/20 bg-[color:var(--color-bg-mid)]/50 px-3 py-2">
+      <div className="flex items-center gap-2 rounded-lg border border-[color:var(--color-glow-accent)]/20 bg-[color:var(--color-bg-black)]/50 px-3 py-2">
         <button
           type="button"
           onClick={() => navigate(`/team/${member.id}`)}
@@ -94,7 +94,7 @@ function MemberRow({ member, depth }) {
             <span className="block text-sm text-[color:var(--color-text-primary)]">
               {member.name}
             </span>
-            <span className="block text-xs text-[color:var(--color-text-secondary)]">
+            <span className="block text-xs text-[color:var(--color-text-muted)]">
               {[member.role, member.domain].filter(Boolean).join(' · ')}
             </span>
           </span>
@@ -109,7 +109,7 @@ function MemberRow({ member, depth }) {
             className={
               expanded
                 ? 'text-[color:var(--color-glow-accent)]'
-                : 'text-[color:var(--color-text-secondary)]'
+                : 'text-[color:var(--color-text-muted)]'
             }
           >
             <ChevronIcon expanded={expanded} />

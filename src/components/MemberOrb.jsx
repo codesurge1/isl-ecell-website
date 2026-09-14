@@ -58,12 +58,12 @@ function MemberOrb({ member, tier }) {
         {member.photo_url ? (
           <img src={member.photo_url} alt={member.name} className="h-full w-full object-contain" />
         ) : (
-          <span className={`font-heading text-[color:var(--color-text-secondary)] ${style.text}`}>
+          <span className={`font-heading text-[color:var(--color-text-muted)] ${style.text}`}>
             {getInitials(member.name)}
           </span>
         )}
       </GlowOrb>
-      <span className="max-w-28 text-center text-xs text-[color:var(--color-text-secondary)]">
+      <span className="max-w-28 text-center text-xs text-[color:var(--color-text-muted)]">
         {member.name}
       </span>
     </button>
