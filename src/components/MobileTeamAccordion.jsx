@@ -14,13 +14,17 @@ function getInitials(name) {
     .join('')
 }
 
+// Same 105x148 portrait-rectangle treatment as MemberOrb/MemberProfile,
+// scaled down to fit a compact accordion row: navy fill behind the photo
+// and object-contain so a transparent PNG cutout letterboxes cleanly
+// instead of being cropped or leaving empty corners.
 function Avatar({ member, className = '' }) {
   return (
     <span
-      className={`flex shrink-0 items-center justify-center overflow-hidden rounded-full border border-[color:var(--color-glow-accent)]/40 bg-[color:var(--color-bg-mid)] ${className}`}
+      className={`flex shrink-0 items-center justify-center overflow-hidden rounded-md border border-[color:var(--color-glow-accent)]/40 bg-[color:var(--color-bg-mid)] ${className}`}
     >
       {member.photo_url ? (
-        <img src={member.photo_url} alt={member.name} className="h-full w-full object-cover" />
+        <img src={member.photo_url} alt={member.name} className="h-full w-full object-contain" />
       ) : (
         <span className="font-heading text-[color:var(--color-text-secondary)]">
           {getInitials(member.name)}
@@ -55,7 +59,7 @@ function RootCard({ member }) {
       onClick={() => navigate(`/team/${member.id}`)}
       className="flex w-full items-center gap-4 rounded-xl border border-[color:var(--color-glow-accent)]/50 bg-[color:var(--color-bg-mid)]/70 p-4 text-left"
     >
-      <Avatar member={member} className="h-16 w-16 text-lg" />
+      <Avatar member={member} className="h-[68px] w-[48px] text-lg" />
       <span>
         <span className="block font-heading text-lg text-[color:var(--color-text-primary)]">
           {member.name}
@@ -85,7 +89,7 @@ function MemberRow({ member, depth }) {
           onClick={() => navigate(`/team/${member.id}`)}
           className="flex flex-1 items-center gap-3 text-left"
         >
-          <Avatar member={member} className="h-10 w-10 text-xs" />
+          <Avatar member={member} className="h-[45px] w-[32px] text-xs" />
           <span>
             <span className="block text-sm text-[color:var(--color-text-primary)]">
               {member.name}
