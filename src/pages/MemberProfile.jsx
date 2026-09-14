@@ -97,7 +97,7 @@ function MemberProfile() {
               </p>
             )}
 
-            <SocialLinks socials={member.socials} />
+            <SocialLinks socials={member.socials} email={member.email} />
           </div>
         )}
       </div>
