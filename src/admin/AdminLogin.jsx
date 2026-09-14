@@ -40,6 +40,7 @@ function AdminLogin() {
     <main className="flex min-h-screen items-center justify-center bg-[color:var(--color-bg-base)] px-4">
       <form
         onSubmit={handleSubmit}
+        noValidate
         className="w-full max-w-sm rounded-lg border border-white/10 bg-[color:var(--color-bg-mid)]/30 p-8"
       >
         <h1 className="font-heading text-2xl text-[color:var(--color-text-primary)]">Admin Login</h1>
