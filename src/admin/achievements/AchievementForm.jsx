@@ -98,7 +98,7 @@ function AchievementForm() {
     <div>
       <h1 className="font-heading text-2xl text-[color:var(--color-text-primary)]">Add Achievement</h1>
 
-      <form onSubmit={handleSubmit} className="mt-6 max-w-lg space-y-4">
+      <form onSubmit={handleSubmit} noValidate className="mt-6 max-w-lg space-y-4">
         <div>
           <label className={labelClass} htmlFor="title">
             Title *

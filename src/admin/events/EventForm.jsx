@@ -172,7 +172,7 @@ function EventForm() {
         {isEditing ? 'Edit Event' : 'Add Event'}
       </h1>
 
-      <form onSubmit={handleSubmit} className="mt-6 max-w-lg space-y-4">
+      <form onSubmit={handleSubmit} noValidate className="mt-6 max-w-lg space-y-4">
         <div>
           <label className={labelClass} htmlFor="title">
             Title *
