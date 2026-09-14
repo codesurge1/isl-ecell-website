@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getMemberById } from '../lib/queries.js'
+import { useImageFallback } from '../lib/use-image-fallback.js'
 import PageTransition from '../components/PageTransition.jsx'
 import SocialLinks from '../components/SocialLinks.jsx'
 
@@ -29,6 +30,7 @@ function MemberProfile() {
   const [member, setMember] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const { showImage, onError } = useImageFallback(member?.photo_url)
 
   useEffect(() => {
     let cancelled = false
@@ -73,10 +75,11 @@ function MemberProfile() {
         {!loading && !error && member && (
           <div className="flex flex-col items-center text-center">
             <span className="flex h-[148px] w-[105px] items-center justify-center overflow-hidden rounded-lg border border-[color:var(--color-glow-accent)]/80 bg-[color:var(--color-bg-black)] shadow-[0_0_14px_2px_rgba(var(--color-glow-accent-rgb),0.7),0_0_34px_8px_rgba(var(--color-glow-accent-rgb),0.4),0_0_64px_16px_rgba(var(--color-glow-accent-rgb),0.18)]">
-              {member.photo_url ? (
+              {showImage ? (
                 <img
                   src={member.photo_url}
                   alt={member.name}
+                  onError={onError}
                   className="h-full w-full object-contain"
                 />
               ) : (

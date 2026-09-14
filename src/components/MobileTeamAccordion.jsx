@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useImageFallback } from '../lib/use-image-fallback.js'
 
 // Mobile fallback for the constellation (below Tailwind's `md` breakpoint):
 // a vertical accordion instead of the branching orb layout. Reuses the same
@@ -19,12 +20,19 @@ function getInitials(name) {
 // photo and object-contain so a transparent PNG cutout letterboxes cleanly
 // instead of being cropped or leaving empty corners.
 function Avatar({ member, className = '' }) {
+  const { showImage, onError } = useImageFallback(member.photo_url)
+
   return (
     <span
       className={`flex shrink-0 items-center justify-center overflow-hidden rounded-md border border-[color:var(--color-glow-accent)]/40 bg-[color:var(--color-bg-black)] ${className}`}
     >
-      {member.photo_url ? (
-        <img src={member.photo_url} alt={member.name} className="h-full w-full object-contain" />
+      {showImage ? (
+        <img
+          src={member.photo_url}
+          alt={member.name}
+          onError={onError}
+          className="h-full w-full object-contain"
+        />
       ) : (
         <span className="font-heading text-[color:var(--color-text-muted)]">
           {getInitials(member.name)}
