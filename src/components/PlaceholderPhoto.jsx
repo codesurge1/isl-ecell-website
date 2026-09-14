@@ -25,23 +25,18 @@ export function PhotoIcon(props) {
 // real Gallery page's masonry and the Home page's gallery teaser strip so
 // both render the same graceful placeholder instead of a broken <img>.
 //
-// `dark` opts into the flat-black/red identity (Home's teaser) without
-// changing the default look the real Gallery page still renders — that
-// page hasn't been redesigned yet, so its call site passes nothing and
-// gets the exact navy/violet treatment it always has.
-function PlaceholderPhoto({ id, className = '', dark = false }) {
+// Used to have a `dark` opt-in prop for the new flat-black/red identity,
+// back when the real Gallery page was still on the old navy/violet look
+// and only Home's teaser wanted the new one. Now that Gallery has been
+// redesigned too, every caller wants the same treatment, so that's just
+// the one look this component renders — no toggle needed.
+function PlaceholderPhoto({ id, className = '' }) {
   const aspectClass = ASPECT_RATIOS[hashToIndex(id, ASPECT_RATIOS.length)]
-  const borderClass = dark ? 'border-[color:var(--color-brand-accent)]/30' : 'border-[color:var(--color-glow-accent)]/20'
-  const bgClass = dark
-    ? 'bg-[color:var(--color-bg-black)]'
-    : 'bg-gradient-to-br from-[color:var(--color-bg-mid)] to-[color:var(--color-bg-base)]'
-  const blobClass = dark ? 'bg-[color:var(--color-brand-accent)]/10' : 'bg-[color:var(--color-glow-accent)]/10'
-  const iconClass = dark ? 'text-[color:var(--color-brand-accent)]' : 'text-[color:var(--color-glow-accent)]'
 
   return (
-    <div className={`relative flex w-full items-center justify-center overflow-hidden rounded-xl border ${borderClass} ${bgClass} ${aspectClass} ${className}`}>
-      <div className={`pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full ${blobClass} blur-3xl`} aria-hidden="true" />
-      <PhotoIcon className={`relative z-10 h-8 w-8 ${iconClass}`} />
+    <div className={`relative flex w-full items-center justify-center overflow-hidden rounded-xl border border-[color:var(--color-brand-accent)]/30 bg-[color:var(--color-bg-black)] ${aspectClass} ${className}`}>
+      <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[color:var(--color-brand-accent)]/10 blur-3xl" aria-hidden="true" />
+      <PhotoIcon className="relative z-10 h-8 w-8 text-[color:var(--color-brand-accent)]" />
     </div>
   )
 }

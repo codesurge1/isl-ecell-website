@@ -332,7 +332,7 @@ function GalleryTeaserSection() {
                   className="w-full rounded-xl object-cover"
                 />
               ) : (
-                <PlaceholderPhoto id={item.id} dark />
+                <PlaceholderPhoto id={item.id} />
               )}
             </div>
           ))}

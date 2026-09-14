@@ -11,6 +11,10 @@ const inputClass =
   'mt-1 w-full rounded-md border border-white/10 bg-[color:var(--color-bg-base)] px-3 py-2 text-[color:var(--color-text-primary)] focus:border-[color:var(--color-glow-accent)] focus:outline-none'
 const labelClass = 'block text-sm text-[color:var(--color-text-secondary)]'
 
+// Deliberately simple — this just catches obvious typos in an optional
+// contact field, not a full RFC 5322 validator.
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
 function MemberForm() {
   const { memberId } = useParams()
   const isEditing = Boolean(memberId)
@@ -28,6 +32,8 @@ function MemberForm() {
   const [instagram, setInstagram] = useState('')
   const [linkedin, setLinkedin] = useState('')
   const [twitter, setTwitter] = useState('')
+  const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState(null)
   const [existingPhotoUrl, setExistingPhotoUrl] = useState(null)
   const [photoFile, setPhotoFile] = useState(null)
   const [photoError, setPhotoError] = useState(null)
@@ -67,6 +73,7 @@ function MemberForm() {
         setInstagram(member.socials?.instagram ?? '')
         setLinkedin(member.socials?.linkedin ?? '')
         setTwitter(member.socials?.twitter ?? '')
+        setEmail(member.email ?? '')
         setExistingPhotoUrl(member.photo_url ?? null)
       }
 
@@ -111,11 +118,23 @@ function MemberForm() {
   async function handleSubmit(event) {
     event.preventDefault()
 
+    let hasError = false
     if (!name.trim()) {
       setNameError('Name is required.')
-      return
+      hasError = true
+    } else {
+      setNameError(null)
     }
-    setNameError(null)
+
+    if (email.trim() && !EMAIL_PATTERN.test(email.trim())) {
+      setEmailError('Please enter a valid email address.')
+      hasError = true
+    } else {
+      setEmailError(null)
+    }
+
+    if (hasError) return
+
     setSubmitError(null)
     setSubmitting(true)
 
@@ -131,6 +150,7 @@ function MemberForm() {
       domain: domain.trim() || null,
       bio: bio.trim() || null,
       parent_id: parentId || null,
+      email: email.trim() || null,
       socials,
     }
 
@@ -185,7 +205,7 @@ function MemberForm() {
         {isEditing ? 'Edit Member' : 'Add Member'}
       </h1>
 
-      <form onSubmit={handleSubmit} className="mt-6 max-w-lg space-y-4">
+      <form onSubmit={handleSubmit} noValidate className="mt-6 max-w-lg space-y-4">
         <div>
           <label className={labelClass} htmlFor="name">
             Name *
@@ -249,6 +269,21 @@ function MemberForm() {
               </option>
             ))}
           </select>
+        </div>
+
+        <div>
+          <label className={labelClass} htmlFor="email">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            placeholder="name@example.com"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            className={inputClass}
+          />
+          {emailError && <p className="mt-1 text-sm text-[color:var(--color-brand-accent)]">{emailError}</p>}
         </div>
 
         <fieldset className="space-y-2">
