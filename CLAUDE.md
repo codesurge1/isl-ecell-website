@@ -21,12 +21,19 @@ backed by Supabase for data and storage.
 | Red (primary accent, used boldly) | #B31E2D |
 | Primary text | #FFFFFF |
 | Muted/secondary text | #8A8A8A |
-| Glow accent (Team constellation only) | #9D7FE8 |
+
+Red is the single glow/accent color used site-wide — including the Team
+constellation's orb glow and connector-line effects (`--color-glow-accent`
+in `src/styles/globals.css`, applied via layered box-shadow rather than a
+solid fill). Team previously used a dedicated violet (#9D7FE8) as the one
+sanctioned exception to this palette; that carve-out is retired, and
+violet should not appear anywhere in the codebase.
 
 Not-yet-redesigned pages still run on an older navy/cosmic palette
 (#05070D base, #0E1B33 navy mid, #C6D0E0 secondary text) — see
 `.claude/rules/design-system.md` for the full legacy table and migration
-note. Navbar, Footer, and Button have already moved to the palette above.
+note. Navbar, Footer, Button, and the Team constellation/member profile
+have already moved to the palette above.
 
 ## Typography
 

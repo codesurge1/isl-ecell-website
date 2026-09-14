@@ -209,8 +209,7 @@ function AboutPreviewSection() {
 }
 
 // A genuine sequence (unlike the Bento grid's non-ordered feature set), so
-// a numbered progression with a connecting line is earned here. Crimson,
-// not the violet glow accent — that stays reserved for the constellation.
+// a numbered progression with a connecting line is earned here.
 const JOURNEY_STAGES = [
   {
     title: 'Ideate',

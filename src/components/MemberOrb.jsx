@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { usePrefersReducedMotion } from '../lib/use-prefers-reduced-motion.js'
+import { useImageFallback } from '../lib/use-image-fallback.js'
 import GlowOrb from './GlowOrb.jsx'
 
 // tier 0 = root (President-level), tier 1 = direct children (domain heads),
@@ -37,6 +38,7 @@ function getInitials(name) {
 function MemberOrb({ member, tier }) {
   const navigate = useNavigate()
   const prefersReducedMotion = usePrefersReducedMotion()
+  const { showImage, onError } = useImageFallback(member.photo_url)
   const style = TIER_STYLES[tier] ?? DEFAULT_TIER_STYLE
 
   const hoverAnimation = prefersReducedMotion
@@ -55,15 +57,20 @@ function MemberOrb({ member, tier }) {
         pulseSeed={member.id}
         hoverAnimation={hoverAnimation}
       >
-        {member.photo_url ? (
-          <img src={member.photo_url} alt={member.name} className="h-full w-full object-contain" />
+        {showImage ? (
+          <img
+            src={member.photo_url}
+            alt={member.name}
+            onError={onError}
+            className="h-full w-full object-contain"
+          />
         ) : (
-          <span className={`font-heading text-[color:var(--color-text-secondary)] ${style.text}`}>
+          <span className={`font-heading text-[color:var(--color-text-muted)] ${style.text}`}>
             {getInitials(member.name)}
           </span>
         )}
       </GlowOrb>
-      <span className="max-w-28 text-center text-xs text-[color:var(--color-text-secondary)]">
+      <span className="max-w-28 text-center text-xs text-[color:var(--color-text-muted)]">
         {member.name}
       </span>
     </button>
