@@ -4,20 +4,23 @@ import GlowOrb from './GlowOrb.jsx'
 
 // tier 0 = root (President-level), tier 1 = direct children (domain heads),
 // tier 2+ = everyone deeper (volunteers) — falls back to the smallest style.
+// Frames are 105x148 portrait rectangles at tier 0 (matching MemberProfile's
+// photo treatment), scaled down per tier at the same relative proportions
+// the old circular sizes used (144 -> 84 -> 56).
 const TIER_STYLES = {
   0: {
-    wrapper: 'h-36 w-36',
+    wrapper: 'h-[148px] w-[105px]',
     ring: 'border border-[color:var(--color-glow-accent)]/90 shadow-[0_0_14px_2px_rgba(var(--color-glow-accent-rgb),0.9),0_0_34px_8px_rgba(var(--color-glow-accent-rgb),0.5),0_0_64px_16px_rgba(var(--color-glow-accent-rgb),0.22)]',
     text: 'text-xl',
   },
   1: {
-    wrapper: 'h-[84px] w-[84px]',
+    wrapper: 'h-[86px] w-[61px]',
     ring: 'border border-[color:var(--color-glow-accent)]/70 shadow-[0_0_9px_1px_rgba(var(--color-glow-accent-rgb),0.7),0_0_22px_5px_rgba(var(--color-glow-accent-rgb),0.38),0_0_42px_10px_rgba(var(--color-glow-accent-rgb),0.16)]',
     text: 'text-sm',
   },
 }
 const DEFAULT_TIER_STYLE = {
-  wrapper: 'h-14 w-14',
+  wrapper: 'h-[58px] w-[41px]',
   ring: 'border border-[color:var(--color-glow-accent)]/45 shadow-[0_0_6px_1px_rgba(var(--color-glow-accent-rgb),0.45),0_0_16px_3px_rgba(var(--color-glow-accent-rgb),0.2)]',
   text: 'text-xs',
 }
@@ -53,7 +56,7 @@ function MemberOrb({ member, tier }) {
         hoverAnimation={hoverAnimation}
       >
         {member.photo_url ? (
-          <img src={member.photo_url} alt={member.name} className="h-full w-full object-cover" />
+          <img src={member.photo_url} alt={member.name} className="h-full w-full object-contain" />
         ) : (
           <span className={`font-heading text-[color:var(--color-text-secondary)] ${style.text}`}>
             {getInitials(member.name)}

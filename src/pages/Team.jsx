@@ -32,7 +32,7 @@ function Team() {
   const roots = buildMemberTree(members)
 
   return (
-    <PageTransition className="relative min-h-screen overflow-hidden bg-gradient-to-b from-[color:var(--color-bg-base)] to-[color:var(--color-bg-mid)] px-4 py-16">
+    <PageTransition className="relative min-h-screen bg-gradient-to-b from-[color:var(--color-bg-base)] to-[color:var(--color-bg-mid)] px-4 py-16">
       <Starfield />
 
       <div className="relative z-10">
