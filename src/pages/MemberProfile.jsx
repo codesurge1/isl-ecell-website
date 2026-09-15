@@ -5,7 +5,6 @@ import { buildMemberTree } from '../lib/buildMemberTree.js'
 import { useImageFallback } from '../lib/use-image-fallback.js'
 import PageTransition from '../components/PageTransition.jsx'
 import SocialLinks from '../components/SocialLinks.jsx'
-import logoMark from '../assets/logo-mark.png'
 
 function getInitials(name) {
   return name
@@ -43,30 +42,28 @@ function BackLink({ className = '' }) {
   )
 }
 
-// Giant, faint logo-mark bleeding behind the photo panel — same masking
-// technique as Home's hero and Team's page background (mask a solid white
-// shape to the logo, low opacity), just scoped to this panel instead of
-// the whole page. The overflow-hidden is on a wrapper spanning the whole
-// photo+text row rather than tightly around the photo itself, so the mark
-// actually has room to bleed instead of being clipped down to the photo's
-// own small box.
-function ProfileWatermark() {
+// Giant "E-CELL" ghost-lettering bleeding from behind the photo panel into
+// the open space above the name — replaces an earlier, too-subtle logo-mark
+// icon watermark. Brand text instead of a masked image, but the same idea
+// the original reference photos had before their ghost-lettering was
+// cropped out for clean cutouts: a huge, faint wordmark that reads as a
+// deliberate design element, not something you have to squint to notice.
+//
+// Scoped to the text column (not the whole photo+text row) rather than
+// literally overlapping the photo panel: the photo has an opaque fill, so
+// an earlier version of this that spanned the full row was almost entirely
+// hidden behind it, leaving only a barely-legible sliver visible. Anchored
+// to bleed off the column's own top-left — i.e. from right where the photo
+// panel ends — so it still reads as originating from behind the panel.
+function Wordmark() {
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-      <div
-        className="absolute -top-12 left-1/2 h-[380px] w-[380px] -translate-x-1/2 opacity-[0.05] md:left-0 md:h-[560px] md:w-[560px] md:-translate-x-1/4"
-        style={{
-          backgroundColor: '#ffffff',
-          WebkitMaskImage: `url(${logoMark})`,
-          maskImage: `url(${logoMark})`,
-          WebkitMaskSize: 'contain',
-          maskSize: 'contain',
-          WebkitMaskRepeat: 'no-repeat',
-          maskRepeat: 'no-repeat',
-          WebkitMaskPosition: 'center',
-          maskPosition: 'center',
-        }}
-      />
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 overflow-hidden select-none"
+    >
+      <span className="absolute -left-2 -top-10 whitespace-nowrap font-display text-[22vw] leading-none tracking-tight text-white/15 md:-left-4 md:-top-16 md:text-[13vw]">
+        E-CELL
+      </span>
     </div>
   )
 }
@@ -90,9 +87,14 @@ function DomainBadge({ domain }) {
   )
 }
 
+// Dominant photo panel: sized off viewport height (not a fixed px value)
+// so it stays the single largest element on the page regardless of screen
+// size — roughly half the viewport height at minimum on desktop, bigger
+// still above that floor. Same object-contain + black-fill + red-glow
+// treatment already established, just at a genuinely large scale.
 function PhotoPanel({ member, showImage, onError }) {
   return (
-    <span className="relative flex h-[300px] w-[213px] items-center justify-center overflow-hidden rounded-2xl border border-[color:var(--color-glow-accent)]/80 bg-[color:var(--color-bg-black)] shadow-[0_0_18px_3px_rgba(var(--color-glow-accent-rgb),0.7),0_0_44px_10px_rgba(var(--color-glow-accent-rgb),0.4),0_0_84px_20px_rgba(var(--color-glow-accent-rgb),0.18)] md:h-[440px] md:w-[312px]">
+    <span className="relative flex h-[52vh] min-h-[420px] w-auto aspect-[105/148] shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-[color:var(--color-glow-accent)]/80 bg-[color:var(--color-bg-black)] shadow-[0_0_24px_4px_rgba(var(--color-glow-accent-rgb),0.7),0_0_56px_14px_rgba(var(--color-glow-accent-rgb),0.4),0_0_100px_26px_rgba(var(--color-glow-accent-rgb),0.18)] md:h-[68vh] md:min-h-[560px]">
       {showImage ? (
         <img
           src={member.photo_url}
@@ -101,11 +103,48 @@ function PhotoPanel({ member, showImage, onError }) {
           className="h-full w-full object-contain"
         />
       ) : (
-        <span className="font-heading text-5xl text-[color:var(--color-text-muted)]">
+        <span className="font-heading text-6xl text-[color:var(--color-text-muted)] md:text-8xl">
           {getInitials(member.name)}
         </span>
       )}
     </span>
+  )
+}
+
+// Domain, role, and bio (when present) live together in one bordered info
+// card — same border/fill/accent-blur treatment as Events' category
+// cards, not a new pattern. Contact icons sit inside the card too, so the
+// whole block reads as one substantial unit rather than a few lines
+// floating in empty space — deliberately not dependent on bio text being
+// present to feel complete.
+function InfoCard({ member }) {
+  return (
+    <div className="relative mt-6 overflow-hidden rounded-2xl border border-[color:var(--color-brand-accent)]/30 bg-[color:var(--color-bg-black)] p-6 md:p-8">
+      <div
+        className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[color:var(--color-brand-accent)]/10 blur-3xl"
+        aria-hidden="true"
+      />
+
+      <div className="relative flex flex-wrap items-center justify-center gap-2 md:justify-start">
+        <DomainBadge domain={member.domain} />
+      </div>
+
+      {member.role && (
+        <p className="relative mt-4 text-xl text-[color:var(--color-text-primary)]">
+          {member.role}
+        </p>
+      )}
+
+      {member.bio && (
+        <p className="relative mx-auto mt-3 max-w-prose text-sm text-[color:var(--color-text-muted)] md:mx-0">
+          {member.bio}
+        </p>
+      )}
+
+      <div className="relative mt-6 flex justify-center gap-4 md:justify-start">
+        <SocialLinks socials={{ linkedin: member.socials?.linkedin }} email={member.email} />
+      </div>
+    </div>
   )
 }
 
@@ -139,8 +178,8 @@ function MemberProfile() {
 
   return (
     <PageTransition className="relative min-h-screen bg-[color:var(--color-bg-black)] px-4 py-16 md:py-24">
-      <div className="mx-auto max-w-4xl">
-        <BackLink className="mb-8 inline-block text-sm" />
+      <div className="mx-auto max-w-6xl">
+        <BackLink className="relative z-10 mb-8 inline-block text-sm" />
 
         {loading && (
           <p className="text-center text-[color:var(--color-text-muted)]">Loading member…</p>
@@ -160,35 +199,22 @@ function MemberProfile() {
         )}
 
         {!loading && !error && member && (
-          <div className="relative grid gap-10 md:grid-cols-[minmax(0,320px)_1fr] md:items-center md:gap-16">
-            <ProfileWatermark />
-
-            <div className="relative mx-auto md:mx-0">
+          <div className="flex flex-col items-center gap-10 md:flex-row md:items-center md:gap-16">
+            <div className="relative">
               <PhotoPanel member={member} showImage={showImage} onError={onError} />
             </div>
 
-            <div className="relative text-center md:text-left">
-              <div className="flex flex-wrap items-center justify-center gap-2 md:justify-start">
+            <div className="relative flex-1 text-center md:text-left">
+              <Wordmark />
+
+              <div className="relative">
                 <NumberBadge position={position} />
-                <DomainBadge domain={member.domain} />
-              </div>
 
-              <h1 className="mt-4 font-display text-4xl tracking-wide text-[color:var(--color-text-primary)] md:text-6xl">
-                {member.name}
-              </h1>
+                <h1 className="mt-3 font-display text-5xl tracking-wide text-[color:var(--color-text-primary)] md:text-7xl">
+                  {member.name}
+                </h1>
 
-              {member.role && (
-                <p className="mt-2 text-lg text-[color:var(--color-text-muted)]">{member.role}</p>
-              )}
-
-              {member.bio && (
-                <p className="mx-auto mt-4 max-w-prose text-sm text-[color:var(--color-text-muted)] md:mx-0">
-                  {member.bio}
-                </p>
-              )}
-
-              <div className="flex justify-center md:justify-start">
-                <SocialLinks socials={{ linkedin: member.socials?.linkedin }} email={member.email} />
+                <InfoCard member={member} />
               </div>
             </div>
           </div>
